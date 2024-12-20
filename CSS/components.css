@@ -1,0 +1,123 @@
+/* Hero Section */
+#hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  #hero h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--primary-blue);
+  }
+  
+  #hero p {
+    font-size: 1.5rem;
+    color: var(--text-color);
+  }
+  
+  /* Projects */
+  .proyecto {
+    background: rgba(0, 102, 255, 0.1);
+    border: 1px solid var(--secondary-blue);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .proyecto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px var(--neon-blue);
+  }
+  
+  .proyecto-preview {
+    margin: 1.5rem 0;
+    border: 1px solid var(--secondary-blue);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .proyecto-preview:hover {
+    transform: scale(1.01);
+  }
+  
+  .proyecto-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .proyecto-links a {
+    padding: 0.8rem 1.5rem;
+    background: var(--secondary-blue);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .proyecto-links a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: 0.5s;
+  }
+  
+  .proyecto-links a:hover {
+    background: var(--primary-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 242, 0.4);
+  }
+  
+  .proyecto-links a:hover::before {
+    left: 100%;
+  }
+  
+
+/* Skills */
+.habilidades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.habilidad {
+  background: rgba(0, 102, 255, 0.1);
+  border: 1px solid var(--secondary-blue);
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+/* Contact */
+.contacto-info {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(0, 102, 255, 0.1);
+  border: 1px solid var(--secondary-blue);
+  border-radius: 8px;
+}
