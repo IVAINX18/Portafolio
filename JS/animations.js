@@ -5,32 +5,24 @@ function initProjectHoverEffects() {
         const preview = project.querySelector('.proyecto-preview');
         if (!preview) return;
 
-        // Solo aplicar efectos en dispositivos no táctiles
         if (!isTouchDevice) {
-            project.addEventListener('mousemove', (e) => {
-                const rect = preview.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                // Reducir el ángulo de rotación para un efecto más sutil
-                const rotateX = ((y - centerY) / rect.height) * 3;
-                const rotateY = ((x - centerX) / rect.width) * 3;
-                
+            project.addEventListener('mouseenter', () => {
                 preview.style.transform = `
                     perspective(1000px)
-                    rotateX(${rotateX}deg)
-                    rotateY(${rotateY}deg)
                     scale3d(1.02, 1.02, 1.02)
+                    rotateX(-2deg)
+                    rotateY(2deg)
                 `;
+                preview.style.transition = 'transform 0.4s ease-out';
             });
 
             project.addEventListener('mouseleave', () => {
                 preview.style.transform = 'none';
-                preview.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                preview.style.transition = 'transform 0.4s ease-in';
             });
         }
     });
 }
+
+// Inicializar efectos cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', initProjectHoverEffects);
