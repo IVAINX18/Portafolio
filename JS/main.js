@@ -1,18 +1,19 @@
-// Smooth scrolling para la navegación
 document.querySelectorAll('nav a').forEach(link => {
     link.addEventListener('click', (e) => {
-        e.preventDefault();
         const targetId = link.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
-        
-        if (targetSection) {
-            window.scrollTo({
-                top: targetSection.offsetTop - 80,
-                behavior: 'smooth'
-            });
+        if (targetId.startsWith('#')) { // Solo aplicar scroll si es un enlace interno
+            e.preventDefault();
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                window.scrollTo({
+                    top: targetSection.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
         }
     });
 });
+
 
 // Efecto sutil para las tarjetas de proyectos
 document.querySelectorAll('.proyecto').forEach(card => {

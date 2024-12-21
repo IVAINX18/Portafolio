@@ -17,7 +17,8 @@
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
     will-change: transform;
-  }
+    filter: brightness(0.9); /* Efecto opaco */
+}
   
   .proyecto-preview img {
     width: 100%;
@@ -37,7 +38,11 @@
     opacity: 0;
     transition: opacity 0.3s;
   }
-  
+
+  .proyecto-preview:hover {
+    filter: brightness(1); /* Efecto opaco eliminado al hacer hover */
+}
+
   .proyecto:hover .proyecto-preview::after {
     opacity: 1;
   }
