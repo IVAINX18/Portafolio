@@ -1,107 +1,44 @@
 /* Hero Section */
 #hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  #hero h1 {
-    font-size: 4rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: var(--primary-blue);
-  }
-  
-  #hero p {
-    font-size: 1.5rem;
-    color: var(--text-color);
-  }
-  
-  /* Projects */
-  .proyecto {
-    background: rgba(0, 102, 255, 0.1);
-    border: 1px solid var(--secondary-blue);
-    border-radius: 8px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .proyecto:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 20px var(--neon-blue);
-  }
-  
-  .proyecto-preview {
-    margin: 1.5rem 0;
-    border: 1px solid var(--secondary-blue);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-  }
-  
-  .proyecto-preview:hover {
-    transform: scale(1.01);
-  }
-  
-  .proyecto-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-  
-  .proyecto-links a {
-    padding: 0.8rem 1.5rem;
-    background: var(--secondary-blue);
-    color: var(--text-color);
-    text-decoration: none;
-    border-radius: 4px;
-    transition: all 0.3s;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .proyecto-links a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    transition: 0.5s;
-  }
-  
-  .proyecto-links a:hover {
-    background: var(--primary-blue);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 255, 242, 0.4);
-  }
-  
-  .proyecto-links a:hover::before {
-    left: 100%;
-  }
-  
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
 
-/* Skills */
+#hero h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--primary-blue);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+#hero p {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: var(--text-color);
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+/* Skills Section */
 .habilidades-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
   padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Centra la última habilidad cuando está sola */
+.habilidades-grid:has(.habilidad:last-child:nth-child(4n + 1)) {
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .habilidad {
@@ -109,15 +46,189 @@
   border: 1px solid var(--secondary-blue);
   padding: 1.5rem;
   border-radius: 8px;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Contact */
-.contacto-info {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
+.habilidad::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(0, 255, 242, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.habilidad:hover::before {
+  transform: translateX(100%);
+}
+
+.habilidad:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px var(--neon-blue),
+              0 0 40px rgba(0, 255, 242, 0.2);
+}
+
+.habilidad h3 {
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+}
+
+.habilidad h3::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-blue), transparent);
+}
+
+.habilidad p {
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* Responsive adjustments for skills grid */
+@media (max-width: 768px) {
+  .habilidades-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    padding: 1rem;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .habilidades-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .habilidad {
+    padding: 1.25rem;
+  }
+}
+
+
+/* Projects */
+.proyecto {
   background: rgba(0, 102, 255, 0.1);
   border: 1px solid var(--secondary-blue);
   border-radius: 8px;
+  padding: clamp(1rem, 3vw, 2rem);
+  margin-bottom: 2rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.proyecto-preview {
+  position: relative;
+  border: 1px solid var(--secondary-blue);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.proyecto-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.proyecto-preview::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(0, 255, 242, 0.1) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.proyecto:hover .proyecto-preview::after {
+  opacity: 1;
+}
+
+.proyecto-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.proyecto-links a {
+  flex: 1;
+  min-width: 140px;
+  padding: 0.8rem 1.5rem;
+  background: rgba(0, 102, 255, 0.2);
+  color: var(--text-color);
+  text-decoration: none;
+  border: 1px solid var(--secondary-blue);
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.proyecto-links a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 242, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.proyecto-links a:hover {
+  background: rgba(0, 102, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 255, 242, 0.3);
+}
+
+.proyecto-links a:hover::before {
+  left: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .proyecto {
+    padding: 1.5rem;
+  }
+
+  .proyecto-links {
+    flex-direction: column;
+  }
+
+  .proyecto-links a {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .proyecto h3 {
+    font-size: 1.5rem;
+  }
+
+  .proyecto-preview {
+    margin: 1rem 0;
+  }
 }
