@@ -7,17 +7,12 @@ function initProjectHoverEffects() {
 
         if (!isTouchDevice) {
             project.addEventListener('mouseenter', () => {
-                preview.style.transform = `
-                    perspective(1000px)
-                    scale3d(1.02, 1.02, 1.02)
-                    rotateX(-2deg)
-                    rotateY(2deg)
-                `;
+                preview.style.transform = 'scale(1.05) translateY(-10px)';
                 preview.style.transition = 'transform 0.4s ease-out';
             });
 
             project.addEventListener('mouseleave', () => {
-                preview.style.transform = 'none';
+                preview.style.transform = 'scale(1) translateY(0)';
                 preview.style.transition = 'transform 0.4s ease-in';
             });
         }
