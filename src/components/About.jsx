@@ -1,5 +1,28 @@
 import { motion } from 'framer-motion';
 
+const programmingLanguages = [
+  {
+    level: "Intermediate",
+    languages: [
+      { name: "Java", proficiency: 70 },
+      { name: "Python", proficiency: 70 },
+      { name: "HTML", proficiency: 75 },
+      { name: "CSS", proficiency: 75 },
+      { name: "JavaScript", proficiency: 80 }
+    ]
+  },
+  {
+    level: "Basic",
+    languages: [
+      { name: "TypeScript", proficiency: 45 },
+      { name: "PHP", proficiency: 40 },
+      { name: "React", proficiency: 50 },
+      { name: "SQL", proficiency: 45 },
+      { name: "Django", proficiency: 40 }
+    ]
+  }
+];
+
 const skills = [
   {
     category: "Frontend Development",
@@ -88,6 +111,53 @@ const About = () => {
             </div>
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-20"
+        >
+          <h3 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+            Programming <span className="text-gradient">Languages</span>
+          </h3>
+          <div className="space-y-12">
+            {programmingLanguages.map((levelGroup, levelIndex) => (
+              <div key={levelIndex}>
+                <h4 className="text-2xl font-bold mb-8 text-primary">
+                  Level: <span className="text-gradient">{levelGroup.level}</span>
+                </h4>
+                <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+                  {levelGroup.languages.map((lang, langIndex) => (
+                    <motion.div
+                      key={langIndex}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: langIndex * 0.1 }}
+                      whileHover={{ y: -3 }}
+                    >
+                      <div className="bg-dark border border-slate-800 rounded-lg p-6 hover:border-primary/50 transition-all duration-300">
+                        <h5 className="text-lg font-bold text-slate-200 mb-4">{lang.name}</h5>
+                        <div className="w-full bg-slate-800/50 rounded-full h-2 overflow-hidden border border-slate-700">
+                          <motion.div
+                            className="bg-gradient-to-r from-primary to-cyan-500 h-full"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${lang.proficiency}%` }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                          />
+                        </div>
+                        <p className="text-xs text-slate-400 mt-3 text-center font-mono">{lang.proficiency}%</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

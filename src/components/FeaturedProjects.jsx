@@ -3,22 +3,22 @@ import { useState } from 'react';
 
 const featuredProjects = [
   {
-    title: "NovaCrew Web Oficial",
-    description: "Official website for NovaCrew, a creative digital agency. Built with modern web technologies featuring responsive design, smooth animations, and optimized performance.",
-    tech: ["React", "TailwindCSS", "Framer Motion", "Vite"],
-    link: "https://novacrewoficial.netlify.app/",
-    github: null,
-    type: "Web Development",
-    color: "from-blue-500 to-cyan-500"
-  },
-  {
     title: "ShadowNet GUI",
-    description: "Advanced GUI application for network security analysis and penetration testing. Combines artificial intelligence with cybersecurity tools for automated vulnerability assessment.",
-    tech: ["Python", "AI/ML", "Network Security", "GUI Development"],
+    description: "Advanced GUI application specializing in malware detection and cybersecurity analysis. Combines artificial intelligence with penetration testing capabilities, offering both academic rigor and practical security applications. The interface provides seamless interaction with AI-powered vulnerability assessment and real-time threat detection.",
+    tech: ["Python", "AI/ML", "Malware Detection", "Security", "GUI"],
     link: null,
     github: "https://github.com/IVAINX18/ShadowNet_GUI",
     type: "AI & Cybersecurity",
     color: "from-purple-500 to-pink-500"
+  },
+  {
+    title: "BiometricoV4",
+    description: "Real-time video calling platform with biometric data scanning simulation. Built with React, the application enables seamless communication between users while processing and displaying live biometric scan data during active calls. The backend infrastructure is deployed on Render, ensuring reliable performance and scalability.",
+    tech: ["React", "WebRTC", "Real-time Processing", "Biometric Systems", "Render"],
+    link: "https://biometricov4-lunq.onrender.com",
+    github: null,
+    type: "Video Communication",
+    color: "from-cyan-500 to-blue-500"
   }
 ];
 
