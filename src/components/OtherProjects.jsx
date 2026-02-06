@@ -6,11 +6,11 @@ const otherProjects = [
     description: "Official website for NovaCrew, a creative digital agency. Built with modern web technologies featuring responsive design, smooth animations, and optimized performance.",
     tech: ["React", "TailwindCSS", "Framer Motion", "Vite"],
     demo: "https://novacrewoficial.netlify.app/",
-    github: null,
+    github: "https://github.com/IVAINX18/NovaCrew-WebOficial",
     highlights: ["Creative Design", "Smooth Animations"]
   },
   {
-    title: "Hotel Cerrito",
+    title: "Pagina de Hotel",
     description: "Full-featured hotel website developed as part of a web development bootcamp. Features responsive design, booking interface, and modern UI/UX practices.",
     tech: ["HTML", "CSS", "JavaScript", "PHP"],
     demo: "https://ivainx18.github.io/Pagina-de-Hotel/",

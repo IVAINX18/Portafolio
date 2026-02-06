@@ -4,30 +4,26 @@ const programmingLanguages = [
   {
     level: "Intermediate",
     languages: [
-      { name: "Java", proficiency: 70 },
-      { name: "Python", proficiency: 70 },
-      { name: "HTML", proficiency: 75 },
-      { name: "CSS", proficiency: 75 },
-      { name: "JavaScript", proficiency: 80 }
+      { name: "Java", proficiency: 50 },
+      { name: "Python", proficiency: 50 },
+      { name: "HTML", proficiency: 50 },
+      { name: "CSS", proficiency: 50 },
+      { name: "JavaScript", proficiency: 50 }
     ]
   },
   {
     level: "Basic",
     languages: [
-      { name: "TypeScript", proficiency: 45 },
-      { name: "PHP", proficiency: 40 },
-      { name: "React", proficiency: 50 },
-      { name: "SQL", proficiency: 45 },
-      { name: "Django", proficiency: 40 }
+      { name: "TypeScript", proficiency: 25 },
+      { name: "PHP", proficiency: 20 },
+      { name: "React", proficiency: 25 },
+      { name: "SQL", proficiency: 20 },
+      { name: "Django", proficiency: 20 }
     ]
   }
 ];
 
 const skills = [
-  {
-    category: "Frontend Development",
-    items: ["HTML", "CSS", "JavaScript", "React", "TailwindCSS"]
-  },
   {
     category: "Cybersecurity",
     items: ["Kali Linux", "Wireshark", "Network Security", "Penetration Testing"]
@@ -149,7 +145,6 @@ const About = () => {
                             transition={{ duration: 0.8, delay: 0.2 }}
                           />
                         </div>
-                        <p className="text-xs text-slate-400 mt-3 text-center font-mono">{lang.proficiency}%</p>
                       </div>
                     </motion.div>
                   ))}
