@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 const otherProjects = [
   {
     title: "NovaCrew Web Oficial",
-    description: "Official website for NovaCrew, a creative digital agency. Built with modern web technologies featuring responsive design, smooth animations, and optimized performance.",
+    description: "Official website for NovaCrew, a creative K-Pop group. Built with modern web technologies featuring responsive design, smooth animations, and optimized performance.",
     tech: ["React", "TailwindCSS", "Framer Motion", "Vite"],
     demo: "https://novacrewoficial.netlify.app/",
     github: "https://github.com/IVAINX18/NovaCrew-WebOficial",
     highlights: ["Creative Design", "Smooth Animations"]
   },
   {
-    title: "Pagina de Hotel",
+    title: "Hotel Website",
     description: "Full-featured hotel website developed as part of a web development bootcamp. Features responsive design, booking interface, and modern UI/UX practices.",
     tech: ["HTML", "CSS", "JavaScript", "PHP"],
     demo: "https://ivainx18.github.io/Pagina-de-Hotel/",

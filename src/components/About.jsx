@@ -4,11 +4,11 @@ const programmingLanguages = [
   {
     level: "Intermediate",
     languages: [
-      { name: "Java", proficiency: 50 },
+      { name: "Java", proficiency: 40 },
       { name: "Python", proficiency: 50 },
-      { name: "HTML", proficiency: 50 },
+      { name: "HTML", proficiency: 45 },
       { name: "CSS", proficiency: 50 },
-      { name: "JavaScript", proficiency: 50 }
+      { name: "JavaScript", proficiency: 35 }
     ]
   },
   {
@@ -17,7 +17,7 @@ const programmingLanguages = [
       { name: "TypeScript", proficiency: 25 },
       { name: "PHP", proficiency: 20 },
       { name: "React", proficiency: 25 },
-      { name: "SQL", proficiency: 20 },
+      { name: "SQL", proficiency: 15 },
       { name: "Django", proficiency: 20 }
     ]
   }
@@ -26,15 +26,15 @@ const programmingLanguages = [
 const skills = [
   {
     category: "Cybersecurity",
-    items: ["Kali Linux", "Wireshark", "Network Security", "Penetration Testing"]
+    items: ["Kali Linux", "Wireshark", "Network Security", "Penetration Testing", "Nmap", "Metasploit"]
   },
   {
     category: "Development Tools",
-    items: ["GitHub", "Visual Studio Code", "Eclipse", "Git"]
+    items: ["GitHub", "Visual Studio Code", "Antigravity", "Eclipse", "Git", "Figma", "Canva"]
   },
   {
     category: "Soft Skills",
-    items: ["Effective Communication", "Active Listening", "Problem Solving", "Resilience"]
+    items: ["Effective Communication", "Active Listening", "Problem Solving", "Resilience", "Teamwork", "Leadership"]
   }
 ];
 
@@ -76,7 +76,7 @@ const About = () => {
               <h3 className="text-2xl md:text-3xl font-bold mb-6 text-gradient">Background</h3>
               <div className="space-y-4 text-slate-300 leading-relaxed">
                 <p>
-                  I'm a Systems Engineering student with a solid foundation in programming tools and cybersecurity. While my specialty is Frontend Development, I also have a keen interest in areas such as information security and data analysis.
+                  I'm a Systems Engineering student with a solid foundation in programming tools, AI and cybersecurity. While my specialty is WebDevelopment, I also have a keen interest in areas such as information security and data analysis.
                 </p>
                 <p>
                   My goal is to continue growing as a developer and contribute to the creation of secure and innovative technological solutions. I combine technical expertise with creative problem-solving to build engaging digital experiences.
