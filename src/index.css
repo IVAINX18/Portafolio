@@ -27,6 +27,7 @@
     @apply bg-gradient-to-r from-primary via-blue-400 to-cyan-400 bg-clip-text text-transparent;
   }
 
+  /* Unused animation - replaced by Framer Motion in components
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
@@ -39,4 +40,5 @@
       transform: translateY(-10px);
     }
   }
+  */
 }
