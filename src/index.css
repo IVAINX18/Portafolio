@@ -1,8 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * Design tokens — single source of truth for repeated visual values.
+ * The palette itself is preserved from the original identity:
+ * darker #020617 · dark #0f172a · primary #0EA5E9.
+ */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 200ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+}
 
 @layer base {
   html {
@@ -11,34 +21,158 @@
 
   body {
     @apply bg-darker text-slate-200;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    /* Guard against accidental horizontal scroll on small viewports.
+     * `clip` (not `hidden`) preserves fixed/sticky behavior. */
+    overflow-x: clip;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   ::selection {
     @apply bg-primary/30 text-white;
   }
+
+  /* Consistent, visible keyboard focus everywhere */
+  :focus-visible {
+    outline: 2px solid #0EA5E9;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 }
 
 @layer utilities {
+  /*
+   * Gradient text with a solid fallback. Identical look when
+   * background-clip:text is supported; stays a readable sky-300
+   * if a forced dark mode / exotic engine strips the gradient
+   * (transparent text over nothing would otherwise vanish).
+   */
   .text-gradient {
-    @apply bg-gradient-to-r from-primary via-blue-400 to-cyan-400 bg-clip-text text-transparent;
+    color: #7dd3fc;
   }
 
-  /* Unused animation - replaced by Framer Motion in components
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .text-gradient {
+      @apply bg-gradient-to-r from-primary via-blue-400 to-cyan-400 bg-clip-text text-transparent;
+    }
   }
 
-  @keyframes float {
+  /* Subtle hero glow — transform/opacity only, GPU friendly */
+  .animate-pulse-glow {
+    animation: pulse-glow 4s ease-in-out infinite;
+    will-change: opacity, transform;
+  }
+
+  @keyframes pulse-glow {
     0%, 100% {
-      transform: translateY(0px);
+      opacity: 0.3;
+      transform: scale(1);
     }
     50% {
-      transform: translateY(-10px);
+      opacity: 0.55;
+      transform: scale(1.08);
     }
   }
-  */
+
+  /*
+   * Discovery drift for the hero arrow — slow, organic, small amplitude.
+   * Deliberately different language from the navbar's sliding indicator:
+   * this one says "keep exploring down", not "you are navigating".
+   */
+  .animate-discover {
+    animation: discover-hint 2.4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes discover-hint {
+    0%, 100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 0.55;
+    }
+  }
+
+  /* Radar entrance — single soft fade of the data area */
+  .radar-area {
+    animation: radar-in 0.8s var(--ease-out) both;
+  }
+
+  @keyframes radar-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Radar axes — pointer + keyboard interaction, opacity/fill only */
+  .radar-axis {
+    cursor: pointer;
+  }
+
+  .radar-axis:focus {
+    outline: none;
+  }
+
+  .radar-axis .radar-dot,
+  .radar-axis .radar-label {
+    transition: opacity var(--duration-fast) ease-out;
+  }
+
+  /*
+   * Inner-element animation only: the dot scales around its own center
+   * (transform-box keeps geometry local) while the hitbox — the static
+   * transparent spoke line + constant-metrics label — never changes.
+   */
+  .radar-axis .radar-dot {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition:
+      transform var(--duration-fast) ease-out,
+      opacity var(--duration-fast) ease-out;
+  }
+
+  .radar-axis:hover .radar-dot,
+  .radar-axis:focus-visible .radar-dot {
+    transform: scale(1.3);
+  }
+
+  .radar-axis .radar-halo {
+    transition: opacity 250ms ease-out;
+  }
+
+  .radar-axis:hover .radar-label,
+  .radar-axis:focus-visible .radar-label {
+    fill: #e2e8f0;
+  }
+}
+
+/* Reduced motion: one global kill-switch for every animation path —
+ * CSS keyframes, smooth scrolling, and Framer Motion (via the
+ * useReducedMotion guards in components). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
