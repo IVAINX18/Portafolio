@@ -157,12 +157,12 @@ export const certifications = [
       'Training in application development using Java programming language.',
   },
   {
-    title: 'Fundamentos Informática Forense',
+    title: 'Digital Forensics Fundamentals',
     description:
       'Introductory foundations of digital forensics: core principles for identifying, preserving and examining digital evidence.',
   },
   {
-    title: 'Certificado de Iniciación al Desarrollo con IA',
+    title: 'Introduction to AI-Assisted Development Certificate',
     description:
       'Introductory program on AI-assisted software development: fundamentals for building and iterating on code with the support of AI tools.',
   },
