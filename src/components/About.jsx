@@ -1,12 +1,7 @@
 import Reveal from './ui/Reveal';
 import SectionHeading from './ui/SectionHeading';
-import SkillCategoryCard from './skills/SkillCategoryCard';
-import {
-  SKILL_LEVELS,
-  certifications,
-  skillCategories,
-  softSkills,
-} from '../data/skills';
+import TechnologyEcosystem from './skills/TechnologyEcosystem';
+import { certifications, softSkills } from '../data/skills';
 
 // --- Sub-components ----------------------------------------------------------
 
@@ -36,50 +31,55 @@ const BackgroundCard = () => (
   </div>
 );
 
+const CertificationBadge = () => (
+  <span
+    aria-hidden="true"
+    className="mt-0.5 p-2 bg-primary/10 border border-primary/20 rounded-lg shrink-0"
+  >
+    <svg
+      className="w-4 h-4 text-primary"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+      />
+    </svg>
+  </span>
+);
+
 const CertificationList = () => (
   <div className="bg-dark border border-slate-800 rounded-xl p-6 sm:p-8 h-full">
-    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 text-gradient">
-      Certifications
-    </h3>
-    <ul className="space-y-6">
+    <div className="flex items-baseline justify-between gap-3 mb-6">
+      <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gradient">
+        Certifications
+      </h3>
+      <p className="font-mono text-xs text-slate-400 shrink-0">
+        {certifications.length} earned
+      </p>
+    </div>
+    <ul className="space-y-3">
       {certifications.map((cert) => (
-        <li key={cert.title} className="border-l-2 border-primary pl-5 sm:pl-6">
-          <h4 className="text-lg font-semibold text-slate-200 mb-1.5">
-            {cert.title}
-          </h4>
-          <p className="text-slate-400 text-[15px] leading-relaxed">
-            {cert.description}
-          </p>
+        <li
+          key={cert.title}
+          className="group flex items-start gap-3.5 rounded-xl border border-transparent p-3 -m-3 transition-colors duration-200 hover:border-slate-700 hover:bg-darker/50"
+        >
+          <CertificationBadge />
+          <div className="min-w-0">
+            <h4 className="text-[17px] font-semibold text-slate-200 leading-snug mb-1">
+              {cert.title}
+            </h4>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              {cert.description}
+            </p>
+          </div>
         </li>
       ))}
     </ul>
-  </div>
-);
-
-const LevelLegend = () => (
-  <div
-    aria-label="Skill level legend"
-    className="flex flex-wrap justify-center gap-x-8 gap-y-3 mb-10"
-  >
-    {Object.entries(SKILL_LEVELS).map(([key, level]) => (
-      <p
-        key={key}
-        className="inline-flex items-center gap-2.5 text-sm text-slate-400"
-      >
-        <span
-          aria-hidden="true"
-          className={`w-2 h-2 rounded-full ${
-            key === 'core'
-              ? 'bg-primary'
-              : key === 'intermediate'
-                ? 'bg-slate-400'
-                : 'bg-slate-600'
-          }`}
-        />
-        <span className="font-semibold text-slate-200">{level.label}</span>
-        <span className="text-slate-400">· {level.description}</span>
-      </p>
-    ))}
   </div>
 );
 
@@ -110,27 +110,9 @@ const About = () => {
           </Reveal>
         </div>
 
-        {/* Technology ecosystem — data-driven, no arbitrary percentages */}
-        <Reveal className="mb-10">
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
-            Technology <span className="text-gradient">Ecosystem</span>
-          </h3>
-          <p className="text-slate-400 text-center mt-3 max-w-2xl mx-auto leading-relaxed">
-            Technologies grouped by domain and honest experience tier — no
-            invented percentages.
-          </p>
-        </Reveal>
-
-        <Reveal>
-          <LevelLegend />
-        </Reveal>
-
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 mb-16 md:mb-20">
-          {skillCategories.map((category, index) => (
-            <Reveal key={category.id} delay={Math.min(index * 0.05, 0.3)}>
-              <SkillCategoryCard category={category} />
-            </Reveal>
-          ))}
+        {/* Technology ecosystem — radar visualization, data-driven */}
+        <div className="mb-16 md:mb-20">
+          <TechnologyEcosystem />
         </div>
 
         {/* Soft skills */}
