@@ -22,7 +22,7 @@ const HeroContent = ({ reduceMotion }) => {
             animate: { opacity: 1, x: 0 },
             transition: { duration: 0.8, ease: 'easeOut' },
           })}
-      className="order-2 md:order-1"
+      className="order-2 lg:order-1"
     >
       <motion.p
         {...fade(0.3)}
@@ -86,7 +86,7 @@ const ProfileImage = ({ reduceMotion }) => (
           animate: { opacity: 1, scale: 1 },
           transition: { duration: 0.8, delay: 0.2, ease: 'easeOut' },
         })}
-    className="order-1 md:order-2 flex justify-center"
+    className="order-1 lg:order-2 flex justify-center"
   >
     <div className="relative">
       <motion.div
@@ -102,7 +102,7 @@ const ProfileImage = ({ reduceMotion }) => (
             })}
         className="relative z-10"
       >
-        <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-primary shadow-2xl shadow-primary/40">
+        <div className="w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-primary shadow-2xl shadow-primary/40">
           <img
             src="/FotoPerfil.png"
             alt="Portrait of Ivan Alexander Velasco Sanchez"
@@ -134,7 +134,7 @@ const ProfileImage = ({ reduceMotion }) => (
 const ScrollIndicator = ({ reduceMotion }) => (
   <motion.div
     {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: 1.2 } })}
-    className="mt-16 md:mt-20 text-center"
+    className="mt-12 md:mt-20 text-center"
   >
     <a
       href="#projects"
@@ -176,10 +176,10 @@ const Hero = () => {
     <section
       id="home"
       aria-labelledby="hero-heading"
-      className="min-h-screen flex items-center justify-center px-6 pt-28 pb-16 md:py-20 scroll-mt-20"
+      className="min-h-screen flex items-center justify-center px-6 pt-24 pb-14 md:py-20 scroll-mt-20"
     >
       <div className="max-w-6xl mx-auto w-full">
-        <div className="grid md:grid-cols-2 gap-10 md:gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <HeroContent reduceMotion={reduceMotion} />
           <ProfileImage reduceMotion={reduceMotion} />
         </div>
