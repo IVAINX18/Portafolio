@@ -1,20 +1,31 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+} from 'framer-motion';
+import { useEffect, useMemo, useState } from 'react';
+import { useActiveSection } from '../hooks/useActiveSection';
+import { scrollToSection } from '../lib/scroll';
 
 // --- Constants ---
+// Order follows the page top-to-bottom: certificates precede skills in About.
 
 const NAV_ITEMS = [
-  { label: 'Home', href: '#home' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
+  { id: 'home', label: 'Home', href: '#home' },
+  { id: 'projects', label: 'Projects', href: '#projects' },
+  { id: 'certificates', label: 'Certificates', href: '#certificates' },
+  { id: 'skills', label: 'Skills', href: '#skills' },
+  { id: 'contact', label: 'Contact', href: '#contact' },
 ];
 
 // --- Sub-components ---
 
-const Logo = () => (
+const Logo = ({ onNavigate }) => (
   <motion.a
     href="#home"
+    onClick={(event) => onNavigate(event, 'home')}
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     aria-label="Ivan Velasco — back to top"
@@ -24,25 +35,41 @@ const Logo = () => (
   </motion.a>
 );
 
-const DesktopMenu = () => (
-  <div className="hidden md:flex items-center gap-8">
-    {NAV_ITEMS.map((item, index) => (
-      <motion.a
-        key={item.href}
-        href={item.href}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.1 }}
-        whileHover={{ scale: 1.05 }}
-        className="nav-link text-slate-300 hover:text-primary font-medium transition-colors duration-200 relative group rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-darker"
-      >
-        {item.label}
-        <span
-          aria-hidden="true"
-          className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full group-focus-visible:w-full"
-        />
-      </motion.a>
-    ))}
+/**
+ * Desktop links with a sliding active indicator (spring layout animation).
+ * This is the navbar's motion language — "you are navigating the system" —
+ * deliberately different from the hero arrow's discovery bob.
+ */
+const DesktopMenu = ({ activeId, onNavigate }) => (
+  <div className="hidden md:flex items-center gap-6 lg:gap-8">
+    {NAV_ITEMS.map((item, index) => {
+      const isActive = item.id === activeId;
+      return (
+        <motion.a
+          key={item.id}
+          href={item.href}
+          onClick={(event) => onNavigate(event, item.id)}
+          aria-current={isActive ? 'location' : undefined}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.08 }}
+          whileHover={{ y: -1 }}
+          className={`relative px-1 py-1.5 font-medium transition-colors duration-200 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-darker ${
+            isActive ? 'text-primary' : 'text-slate-300 hover:text-slate-100'
+          }`}
+        >
+          {item.label}
+          {isActive && (
+            <motion.span
+              layoutId="nav-active-underline"
+              aria-hidden="true"
+              transition={{ type: 'spring', stiffness: 480, damping: 42 }}
+              className="absolute -bottom-0.5 left-0 right-0 h-0.5 rounded-full bg-primary"
+            />
+          )}
+        </motion.a>
+      );
+    })}
   </div>
 );
 
@@ -83,7 +110,7 @@ const MobileMenuButton = ({ isOpen, onClick }) => (
   </motion.button>
 );
 
-const MobileMenu = ({ isOpen, onClose }) => (
+const MobileMenu = ({ isOpen, activeId, onNavigate }) => (
   <AnimatePresence>
     {isOpen && (
       <motion.div
@@ -95,31 +122,64 @@ const MobileMenu = ({ isOpen, onClose }) => (
         className="md:hidden overflow-hidden"
       >
         <ul className="mt-4 pb-4 space-y-1">
-          {NAV_ITEMS.map((item, index) => (
-            <li key={item.href}>
-              <motion.a
-                href={item.href}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.06 }}
-                onClick={onClose}
-                className="block py-3 px-1 text-slate-300 hover:text-primary font-medium transition-colors duration-200 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-              >
-                {item.label}
-              </motion.a>
-            </li>
-          ))}
+          {NAV_ITEMS.map((item, index) => {
+            const isActive = item.id === activeId;
+            return (
+              <li key={item.id}>
+                <motion.a
+                  href={item.href}
+                  onClick={(event) => onNavigate(event, item.id, true)}
+                  aria-current={isActive ? 'location' : undefined}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className={`flex items-center gap-3 py-3 px-2 font-medium transition-colors duration-200 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                    isActive ? 'text-primary' : 'text-slate-300 hover:text-primary'
+                  }`}
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`w-1 self-stretch rounded-full transition-colors duration-200 ${
+                      isActive ? 'bg-primary' : 'bg-transparent'
+                    }`}
+                  />
+                  {item.label}
+                </motion.a>
+              </li>
+            );
+          })}
         </ul>
       </motion.div>
     )}
   </AnimatePresence>
 );
 
+/** Scroll-linked progress hairline — transform-only, spring-smoothed. */
+const ScrollProgress = () => {
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 140,
+    damping: 30,
+    mass: 0.4,
+  });
+
+  return (
+    <motion.div
+      aria-hidden="true"
+      style={reduceMotion ? { scaleX: 0 } : { scaleX }}
+      className="absolute bottom-0 left-0 right-0 h-[2px] origin-left bg-gradient-to-r from-primary via-blue-400 to-cyan-400"
+    />
+  );
+};
+
 // --- Main component ---
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const sectionIds = useMemo(() => NAV_ITEMS.map((item) => item.id), []);
+  const activeId = useActiveSection(sectionIds);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -141,6 +201,13 @@ const Navigation = () => {
     return () => window.removeEventListener('keydown', handleKey);
   }, [isMobileMenuOpen]);
 
+  const handleNavigate = (event, id, fromMobile = false) => {
+    event.preventDefault();
+    if (fromMobile) setIsMobileMenuOpen(false);
+    // Let the mobile menu collapse before measuring the target position.
+    requestAnimationFrame(() => scrollToSection(id));
+  };
+
   return (
     <motion.nav
       aria-label="Primary"
@@ -155,8 +222,8 @@ const Navigation = () => {
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Logo />
-          <DesktopMenu />
+          <Logo onNavigate={handleNavigate} />
+          <DesktopMenu activeId={activeId} onNavigate={handleNavigate} />
           <MobileMenuButton
             isOpen={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -164,9 +231,11 @@ const Navigation = () => {
         </div>
         <MobileMenu
           isOpen={isMobileMenuOpen}
-          onClose={() => setIsMobileMenuOpen(false)}
+          activeId={activeId}
+          onNavigate={handleNavigate}
         />
       </div>
+      <ScrollProgress />
     </motion.nav>
   );
 };

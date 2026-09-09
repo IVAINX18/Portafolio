@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
+import { scrollToSection } from '../lib/scroll';
 
 // --- Sub-components ---
 
@@ -53,12 +54,20 @@ const HeroContent = ({ reduceMotion }) => {
       >
         <a
           href="#projects"
+          onClick={(event) => {
+            event.preventDefault();
+            scrollToSection('projects');
+          }}
           className="px-8 py-4 bg-primary hover:bg-sky-400 text-darker font-semibold rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-darker"
         >
           View My Work
         </a>
         <a
           href="#contact"
+          onClick={(event) => {
+            event.preventDefault();
+            scrollToSection('contact');
+          }}
           className="px-8 py-4 border-2 border-primary hover:bg-primary/10 text-primary font-semibold rounded-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-darker"
         >
           Get In Touch
@@ -116,6 +125,12 @@ const ProfileImage = ({ reduceMotion }) => (
   </motion.div>
 );
 
+/**
+ * Discovery arrow — its own motion language ("keep exploring down"):
+ * a slow organic vertical drift, a hover lift and a press dip on click,
+ * then a designed glide into the next section. Deliberately different
+ * from the navbar's sliding active indicator.
+ */
 const ScrollIndicator = ({ reduceMotion }) => (
   <motion.div
     {...(reduceMotion ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: 1.2 } })}
@@ -123,15 +138,19 @@ const ScrollIndicator = ({ reduceMotion }) => (
   >
     <a
       href="#projects"
+      onClick={(event) => {
+        event.preventDefault();
+        scrollToSection('projects');
+      }}
       aria-label="Scroll down to featured projects"
-      className="inline-block p-2 rounded-full text-primary transition-colors hover:text-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-darker"
+      className="group inline-block p-3 rounded-full text-primary transition-all duration-300 hover:text-sky-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-darker"
     >
       <span
         aria-hidden="true"
-        className={`block ${reduceMotion ? '' : 'animate-scroll-hint'}`}
+        className={`block ${reduceMotion ? '' : 'animate-discover'}`}
       >
         <svg
-          className="w-8 h-8 mx-auto"
+          className="w-8 h-8 mx-auto transition-transform duration-300 group-hover:scale-110"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

@@ -11,6 +11,11 @@ import { categoryBreadth } from '../../data/skills';
  * (core > intermediate > familiar), clamped to a moderate band. They are
  * never displayed as numbers or percentages — the shape only suggests
  * relative breadth per area.
+ *
+ * Structural hover contract: the hitbox (wide transparent spoke line +
+ * constant-metrics label) NEVER changes size on hover. Only inner paint
+ * (dot fill, halo opacity, label color) and a transform-only dot scale
+ * respond — so the pointer can never oscillate between hover states.
  */
 
 const SIZE = 400;
@@ -127,28 +132,31 @@ const TechnologyRadar = ({ categories, activeId, onSelect }) => {
               stroke="transparent"
               strokeWidth={28}
             />
-            {isActive && (
-              <circle
-                cx={point.x}
-                cy={point.y}
-                r={10}
-                fill="none"
-                stroke="#0EA5E9"
-                strokeOpacity={0.35}
-                strokeWidth={1.5}
-                aria-hidden="true"
-              />
-            )}
+            {/* Halo + dot: constant geometry, paint-only state change.
+                The halo stays mounted and cross-fades via opacity. */}
             <circle
               cx={point.x}
               cy={point.y}
-              r={isActive ? 5.5 : 4}
+              r={10}
+              fill="none"
+              stroke="#0EA5E9"
+              strokeWidth={1.5}
+              opacity={isActive ? 0.35 : 0}
+              className="radar-halo"
+              aria-hidden="true"
+            />
+            <circle
+              cx={point.x}
+              cy={point.y}
+              r={4.5}
               fill={isActive ? '#0EA5E9' : '#020617'}
               stroke="#0EA5E9"
               strokeWidth={2}
               className="radar-dot"
               aria-hidden="true"
             />
+            {/* Label metrics never change (constant weight) so the
+                rendered text cannot resize the hover region. */}
             <text
               x={lx}
               y={ly}
@@ -158,7 +166,7 @@ const TechnologyRadar = ({ categories, activeId, onSelect }) => {
               dominantBaseline="middle"
               fontSize={12.5}
               fontFamily="JetBrains Mono, monospace"
-              fontWeight={isActive ? 700 : 500}
+              fontWeight={500}
               fill={isActive ? '#0EA5E9' : '#94a3b8'}
               className="radar-label"
               aria-hidden="true"

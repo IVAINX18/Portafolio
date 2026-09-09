@@ -55,8 +55,17 @@ const TierLegend = () => (
   </ul>
 );
 
+/**
+ * Detail panel with a FIXED minimum height: switching categories must never
+ * resize the panel, otherwise page reflow under the cursor can retrigger
+ * hover and oscillate. Content cross-fades in place; geometry stays put.
+ */
 const ActiveCategoryPanel = ({ category }) => (
-  <div aria-live="polite" aria-label="Selected area details">
+  <div
+    aria-live="polite"
+    aria-label="Selected area details"
+    className="min-h-[15rem]"
+  >
     <div className="flex items-baseline justify-between gap-3 mb-1.5">
       <h4 className="text-lg font-bold text-slate-100">{category.label}</h4>
       <p className="font-mono text-xs text-slate-400 shrink-0">
@@ -155,14 +164,14 @@ const TechnologyEcosystem = () => {
                         onClick={() => setActiveId(cat.id)}
                         onMouseEnter={() => setActiveId(cat.id)}
                         onFocus={() => setActiveId(cat.id)}
-                        className={`w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-lg border text-sm font-medium text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark ${
+                        className={`w-full flex items-center justify-between gap-2 px-3.5 py-3 rounded-lg border text-sm font-medium text-left transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark ${
                           isActive
                             ? 'border-primary/50 bg-primary/10 text-slate-100'
                             : 'border-slate-800 text-slate-400 hover:border-slate-600 hover:text-slate-200'
                         }`}
                       >
                         <span>{cat.label}</span>
-                        <span className="font-mono text-xs opacity-70 shrink-0">
+                        <span className="font-mono text-xs text-slate-400 shrink-0">
                           {cat.items.length}
                         </span>
                       </button>

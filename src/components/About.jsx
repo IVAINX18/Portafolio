@@ -53,7 +53,10 @@ const CertificationBadge = () => (
 );
 
 const CertificationList = () => (
-  <div className="bg-dark border border-slate-800 rounded-xl p-6 sm:p-8 h-full">
+  <div
+    id="certificates"
+    className="bg-dark border border-slate-800 rounded-xl p-6 sm:p-8 h-full scroll-mt-24"
+  >
     <div className="flex items-baseline justify-between gap-3 mb-6">
       <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gradient">
         Certifications
@@ -111,7 +114,7 @@ const About = () => {
         </div>
 
         {/* Technology ecosystem — radar visualization, data-driven */}
-        <div className="mb-16 md:mb-20">
+        <div id="skills" className="mb-16 md:mb-20 scroll-mt-20">
           <TechnologyEcosystem />
         </div>
 
