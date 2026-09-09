@@ -1,8 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * Design tokens — single source of truth for repeated visual values.
+ * The palette itself is preserved from the original identity:
+ * darker #020617 · dark #0f172a · primary #0EA5E9.
+ */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 200ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+}
 
 @layer base {
   html {
@@ -11,14 +21,28 @@
 
   body {
     @apply bg-darker text-slate-200;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   ::selection {
     @apply bg-primary/30 text-white;
+  }
+
+  /* Consistent, visible keyboard focus everywhere */
+  :focus-visible {
+    outline: 2px solid #0EA5E9;
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 }
 
@@ -27,18 +51,54 @@
     @apply bg-gradient-to-r from-primary via-blue-400 to-cyan-400 bg-clip-text text-transparent;
   }
 
-  /* Unused animation - replaced by Framer Motion in components
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
+  /* Subtle hero glow — transform/opacity only, GPU friendly */
+  .animate-pulse-glow {
+    animation: pulse-glow 4s ease-in-out infinite;
+    will-change: opacity, transform;
   }
 
-  @keyframes float {
+  @keyframes pulse-glow {
     0%, 100% {
-      transform: translateY(0px);
+      opacity: 0.3;
+      transform: scale(1);
     }
     50% {
-      transform: translateY(-10px);
+      opacity: 0.55;
+      transform: scale(1.08);
     }
   }
-  */
+
+  /* Gentle scroll hint — vertical nudge only */
+  .animate-scroll-hint {
+    animation: scroll-hint 1.8s ease-in-out infinite;
+  }
+
+  @keyframes scroll-hint {
+    0%, 100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(8px);
+      opacity: 0.6;
+    }
+  }
+}
+
+/* Reduced motion: one global kill-switch for every animation path —
+ * CSS keyframes, smooth scrolling, and Framer Motion (via the
+ * useReducedMotion guards in components). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
