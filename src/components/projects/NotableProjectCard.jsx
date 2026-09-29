@@ -38,6 +38,7 @@ const NotableProjectCard = ({ project }) => {
   const { links } = project;
   const hasDemo = Boolean(links?.demo);
   const hasGithub = Boolean(links?.github);
+  const demoLabel = links?.demoLabel || 'Live Demo';
 
   return (
     <Reveal className="h-full">
@@ -90,10 +91,10 @@ const NotableProjectCard = ({ project }) => {
                 href={links.demo}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${project.title} live demo (opens in a new tab)`}
+                aria-label={`${project.title} — ${demoLabel.toLowerCase()} (opens in a new tab)`}
                 className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary hover:bg-sky-400 text-darker text-sm font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
               >
-                <span>Live Demo</span>
+                <span>{demoLabel}</span>
                 <ExternalIcon />
               </a>
             )}

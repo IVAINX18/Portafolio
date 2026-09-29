@@ -20,7 +20,7 @@ export const featuredProjects = [
     status: 'Active · v4.1.0',
     // Short, scannable description (full detail lives in the repo README)
     description:
-      'Hybrid multi-layer static malware detection for Windows PE files. A deep neural network classifies a 2,381-dimension feature vector, while YARA, UPX unpacking and forensic layers correlate into a single explainable verdict.',
+      'Hybrid multi-layer static malware detection for Windows PE files. An MLP classifier scores a 2,387-dimension vector (2,381 EMBER + 6 overlay signals), while YARA, UPX unpacking and forensic layers correlate into a single explainable verdict.',
     // Problem it solves — communicates technical depth without inventing data
     problem:
       'Signature-based antiviruses fail against polymorphic malware, zero-days and overlay payloads. Shadow-Net detects threats by structure and behavior, not by hash.',
@@ -35,24 +35,25 @@ export const featuredProjects = [
       'React',
     ],
     features: [
-      '2,381-dim EMBER / SOREL-20M feature vector',
+      '2,387-dim vector: 2,381 EMBER features + 6 overlay signals',
+      'MLP 2387 → 512 → 256 → 128 → 1 trained on 7M SOREL-20M samples',
       'Hybrid engine: YARA + UPX + overlay forensics + .NET / IL',
-      'Correlation engine with typed evidence contract',
-      'CPU inference under 50 ms (ONNX + Z-Score)',
+      'Evidence contract + correlation engine with per-group weighting',
+      'CPU inference at ~15 ms with per-block Z-Score scalers',
       'SHAP + LLM explainability with offline fallback',
-      'Clean Architecture, evidence-centered pipeline',
     ],
     // Real, verifiable indicators taken from the repository README
     metrics: [
-      { value: '0.985', label: 'AUC-ROC' },
-      { value: '2,381', label: 'Feature dims' },
-      { value: '<50 ms', label: 'ONNX inference' },
-      { value: 'SOREL-20M', label: 'Training data' },
+      { value: '0.996', label: 'AUC-ROC' },
+      { value: '95.42%', label: 'F1-Score' },
+      { value: '~15 ms', label: 'ONNX inference' },
+      { value: '2,387', label: 'Feature dims' },
     ],
     links: {
       github:
         'https://github.com/IVAINX18/Shadow-Net-Defender-Hybrid-Malware-Detection',
-      demo: null,
+      demo: 'https://defender.shadownettechnologies.tech',
+      demoLabel: 'Live Preview',
     },
     // Footnote shown discreetly — authorship / license context from the README
     footnote:

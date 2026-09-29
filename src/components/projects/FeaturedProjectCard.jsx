@@ -36,6 +36,7 @@ const ExternalIcon = () => (
  */
 const FeaturedProjectCard = ({ project }) => {
   const { links } = project;
+  const demoLabel = links?.demoLabel || 'Live Demo';
 
   return (
     <Reveal>
@@ -162,10 +163,10 @@ const FeaturedProjectCard = ({ project }) => {
                   href={links.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`${project.title} live demo (opens in a new tab)`}
+                  aria-label={`${project.title} — ${demoLabel.toLowerCase()} (opens in a new tab)`}
                   className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary hover:bg-primary/10 font-semibold rounded-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
                 >
-                  <span>Live Demo</span>
+                  <span>{demoLabel}</span>
                   <ExternalIcon />
                 </a>
               )}
