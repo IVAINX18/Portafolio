@@ -3,16 +3,17 @@
 @tailwind utilities;
 
 /*
- * Self-hosted variable fonts (latin subset). One file per family with the
- * full weight axis included: no external font CDN, no render-blocking
- * request, no third-party dependency at runtime.
+ * Fuentes self-hosted (subset latin). Anton es la voz display: un grotesco
+ * condensado de un solo peso donde la jerarquia la decide el tamano, igual
+ * que en un cartel impreso. Inter lleva el texto corrido y JetBrains Mono
+ * las etiquetas, cifras y anotaciones tecnicas.
  */
 @font-face {
-  font-family: 'Space Grotesk';
+  font-family: 'Anton';
   font-style: normal;
-  font-weight: 300 700;
+  font-weight: 400;
   font-display: swap;
-  src: url('/fonts/space-grotesk-var-latin.woff2') format('woff2');
+  src: url('/fonts/anton-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -35,10 +36,8 @@
 }
 
 /*
- * Design tokens: single source of truth for repeated visual values.
- * Palette preserved from the original identity: darker #020617,
- * dark #0f172a, primary #0EA5E9. Type roles are documented in
- * tailwind.config.js (display / sans / mono).
+ * Tokens del sistema en un solo sitio. La paleta es tinta + hueso + un unico
+ * acento; cualquier color fuera de esta lista seria un error de mantenimiento.
  */
 :root {
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -53,11 +52,10 @@
   }
 
   body {
-    @apply bg-darker text-slate-200;
+    @apply bg-ink text-bone;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    /* Guard against accidental horizontal scroll on small viewports.
-     * `clip` (not `hidden`) preserves fixed/sticky behavior. */
+    /* Evito el scroll horizontal accidental sin romper el sticky. */
     overflow-x: clip;
   }
 
@@ -71,35 +69,55 @@
   }
 
   ::selection {
-    @apply bg-primary/30 text-white;
+    @apply bg-accent/30 text-bone;
   }
 
-  /* Consistent, visible keyboard focus everywhere */
+  /* Foco visible y consistente para navegacion por teclado. */
   :focus-visible {
-    outline: 2px solid #0EA5E9;
+    outline: 2px solid #38bdf8;
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: 2px;
   }
 }
 
 @layer utilities {
   /*
-   * Gradient text with a solid fallback. Identical look when
-   * background-clip:text is supported; stays a readable sky-300
-   * if a forced dark mode / exotic engine strips the gradient
-   * (transparent text over nothing would otherwise vanish).
+   * Subrayado que se dibuja al pasar el cursor o al enfocar con teclado.
+   * Uso background-size en vez de text-decoration para poder animarlo y
+   * para que el estado del enlace no dependa solo del color.
    */
-  .text-gradient {
-    color: #7dd3fc;
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size var(--duration-base) var(--ease-out);
   }
 
-  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-    .text-gradient {
-      @apply bg-gradient-to-r from-primary via-blue-400 to-cyan-400 bg-clip-text text-transparent;
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /*
+   * Cinta de texto en movimiento: dejo dos copias identicas del contenido y
+   * desplazo exactamente la mitad, de modo que el bucle no tiene salto.
+   * Es el unico marquee de la pagina y funciona como separador de secciones.
+   */
+  .marquee-track {
+    animation: marquee 30s linear infinite;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
     }
   }
 
-  /* Radar entrance: single soft fade of the data area */
+  /* Radar: misma entrada suave que antes del rediseno. */
   .radar-area {
     animation: radar-in 0.8s var(--ease-out) both;
   }
@@ -113,7 +131,11 @@
     }
   }
 
-  /* Radar axes: pointer + keyboard interaction, opacity/fill only */
+  /*
+   * Radar: la caja de impacto (linea transparente ancha + etiqueta de
+   * metricas constantes) nunca cambia de tamano; solo responden la pintura
+   * interna y la escala del punto, asi el puntero no oscila entre estados.
+   */
   .radar-axis {
     cursor: pointer;
   }
@@ -127,11 +149,6 @@
     transition: opacity var(--duration-fast) ease-out;
   }
 
-  /*
-   * Inner-element animation only: the dot scales around its own center
-   * (transform-box keeps geometry local) while the hitbox (the static
-   * transparent spoke line + constant-metrics label) never changes.
-   */
   .radar-axis .radar-dot {
     transform-box: fill-box;
     transform-origin: center;
@@ -151,13 +168,12 @@
 
   .radar-axis:hover .radar-label,
   .radar-axis:focus-visible .radar-label {
-    fill: #e2e8f0;
+    fill: #edeae3;
   }
 }
 
-/* Reduced motion: one global kill-switch for every animation path:
- * CSS keyframes, smooth scrolling, and Framer Motion (via the
- * useReducedMotion guards in components). */
+/* Reduced motion: un unico interruptor global para cada ruta de animacion,
+ * incluidas las animaciones CSS y las de Framer Motion (via useReducedMotion). */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -170,5 +186,9 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .marquee-track {
+    animation: none;
   }
 }

@@ -1,111 +1,128 @@
-import { EnvelopeSimple } from '@phosphor-icons/react';
+import {
+  ArrowUpRight,
+  EnvelopeSimple,
+  GithubLogo,
+  LinkedinLogo,
+} from '@phosphor-icons/react';
 import Reveal from './ui/Reveal';
 
-// --- Constants & Data ---
-
-const SOCIAL_LINKS = [
+// Canales reales de contacto. Los declaro como datos para que anadir uno
+// nuevo solo requiera una linea y el render no cambie.
+const CONTACT_CHANNELS = [
   {
     name: 'GitHub',
     url: 'https://github.com/IVAINX18',
-    icon: (
-      <svg
-        className="w-6 h-6"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-      </svg>
-    ),
+    external: true,
+    icon: GithubLogo,
   },
   {
     name: 'LinkedIn',
     url: 'https://www.linkedin.com/in/ivan-velasco-660a512bb/',
-    icon: (
-      <svg
-        className="w-6 h-6"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
-      </svg>
-    ),
+    external: true,
+    icon: LinkedinLogo,
   },
   {
     name: 'Email',
     url: 'mailto:ivanvelascosanchez74@gmail.com',
-    icon: (
-      <EnvelopeSimple
-        className="w-6 h-6"
-        weight="bold"
-        aria-hidden="true"
-      />
-    ),
+    external: false,
+    icon: EnvelopeSimple,
   },
 ];
 
-// --- Sub-components ---
-
-const ContactHeader = () => (
-  <Reveal>
-    <h2 id="contact-title" className="text-4xl md:text-6xl font-semibold mb-6">
-      Let&apos;s Connect
-    </h2>
-    <p className="text-lg md:text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-      I&apos;m always open to discussing new projects, creative ideas, or
-      opportunities to be part of your vision.
-    </p>
-  </Reveal>
-);
-
-const SocialLinks = () => (
-  <Reveal delay={0.1}>
-    <ul
-      aria-label="Social and contact links"
-      className="flex flex-wrap justify-center gap-4 sm:gap-6"
-    >
-      {SOCIAL_LINKS.map((social) => (
-        <li key={social.name}>
-          <a
-            href={social.url}
-            target={social.url.startsWith('mailto:') ? undefined : '_blank'}
-            rel={
-              social.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'
-            }
-            aria-label={`${social.name}, ${social.url.startsWith('mailto:') ? 'send an email' : `open ${social.name} profile in a new tab`}`}
-            className="flex items-center gap-3 px-6 sm:px-8 py-4 bg-dark border border-slate-800 rounded-lg transition-all duration-300 hover:border-primary/60 hover:-translate-y-0.5 text-slate-200 hover:text-white font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-darker"
-          >
-            {social.icon}
-            <span>{social.name}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  </Reveal>
-);
+const FOOTER_LINKS = [
+  { label: 'Work', href: '#projects' },
+  { label: 'About', href: '#about' },
+  { label: 'Toolkit', href: '#skills' },
+  { label: 'Back to top', href: '#home' },
+];
 
 const Footer = () => (
   <Reveal delay={0.15}>
-    <footer className="mt-16 md:mt-20 pt-8 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm text-slate-500">
+    <footer className="mt-24 flex flex-col gap-6 border-t border-line pt-8 font-mono text-[11px] uppercase tracking-[0.14em] text-bone-faint md:flex-row md:items-center md:justify-between">
       <p>© {new Date().getFullYear()} Ivan Alexander Velasco Sanchez</p>
-      <p>Built with React, Tailwind CSS &amp; Framer Motion</p>
+      <nav aria-label="Footer" className="flex flex-wrap gap-6">
+        {FOOTER_LINKS.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            className="link-underline transition-colors hover:text-bone"
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+      <p>Built with React, Tailwind CSS and Framer Motion</p>
     </footer>
   </Reveal>
 );
 
-// --- Main component ---
-
+/**
+ * Contact: cierre de cartel. El titular vuelve a la escala del hero y los
+ * canales van como un indice tipografico grande, no como una fila de
+ * botones, para que la pagina termine en el mismo idioma con el que empezo.
+ */
 const Contact = () => {
   return (
     <section
       id="contact"
       aria-labelledby="contact-title"
-      className="py-24 md:py-32 px-6 scroll-mt-20"
+      className="scroll-mt-20 border-t border-line px-5 pb-12 pt-24 sm:px-8 md:pt-36"
     >
-      <div className="max-w-4xl mx-auto text-center">
-        <ContactHeader />
-        <SocialLinks />
+      <div className="mx-auto max-w-[1400px]">
+        <Reveal>
+          <h2
+            id="contact-title"
+            className="mb-8 font-display uppercase leading-[0.9] text-[clamp(3rem,11vw,9rem)]"
+          >
+            Let&apos;s talk
+          </h2>
+        </Reveal>
+
+        <Reveal delay={0.05}>
+          <p className="mb-14 max-w-[52ch] text-lg leading-relaxed text-bone-dim">
+            I am open to internships, junior roles and collaborations on
+            security or web projects. Email is the fastest way to reach me.
+          </p>
+        </Reveal>
+
+        <ul className="border-b border-line">
+          {CONTACT_CHANNELS.map((channel, index) => {
+            const Icon = channel.icon;
+            return (
+              <li key={channel.name} className="border-t border-line">
+                <Reveal delay={0.05 + index * 0.05}>
+                  <a
+                    href={channel.url}
+                    target={channel.external ? '_blank' : undefined}
+                    rel={channel.external ? 'noopener noreferrer' : undefined}
+                    aria-label={
+                      channel.external
+                        ? `${channel.name}, open profile in a new tab`
+                        : 'Email, send a message'
+                    }
+                    className="group flex items-center justify-between gap-6 py-6 md:py-8"
+                  >
+                    <span className="flex items-center gap-5">
+                      <Icon
+                        className="h-6 w-6 shrink-0 text-accent md:h-7 md:w-7"
+                        aria-hidden="true"
+                      />
+                      <span className="font-display uppercase text-3xl leading-none transition-colors duration-300 group-hover:text-accent-soft md:text-5xl">
+                        {channel.name}
+                      </span>
+                    </span>
+                    <ArrowUpRight
+                      className="h-6 w-6 shrink-0 text-bone-faint transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-accent-soft"
+                      weight="bold"
+                      aria-hidden="true"
+                    />
+                  </a>
+                </Reveal>
+              </li>
+            );
+          })}
+        </ul>
+
         <Footer />
       </div>
     </section>

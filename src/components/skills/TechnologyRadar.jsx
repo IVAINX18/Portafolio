@@ -66,7 +66,7 @@ const TechnologyRadar = ({ categories, activeId, onSelect }) => {
             )
           )}
           fill="none"
-          stroke="#1e293b"
+          stroke="#262521"
           strokeWidth={fraction === 1 ? 1.5 : 1}
           aria-hidden="true"
         />
@@ -80,7 +80,7 @@ const TechnologyRadar = ({ categories, activeId, onSelect }) => {
           y1={CENTER}
           x2={x}
           y2={y}
-          stroke="#1e293b"
+          stroke="#262521"
           strokeWidth={1}
           aria-hidden="true"
         />
@@ -89,14 +89,14 @@ const TechnologyRadar = ({ categories, activeId, onSelect }) => {
       {/* Data area */}
       <polygon
         points={dataPoints.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ')}
-        fill="rgba(14, 165, 233, 0.14)"
-        stroke="#0EA5E9"
+        fill="rgba(56, 189, 248, 0.10)"
+        stroke="#38bdf8"
         strokeWidth={2}
         strokeLinejoin="round"
         className="radar-area"
         aria-hidden="true"
       />
-      <circle cx={CENTER} cy={CENTER} r={2.5} fill="#0EA5E9" opacity={0.5} aria-hidden="true" />
+      <circle cx={CENTER} cy={CENTER} r={2.5} fill="#38bdf8" opacity={0.5} aria-hidden="true" />
 
       {/* Interactive axes */}
       {categories.map((cat, i) => {
@@ -139,7 +139,7 @@ const TechnologyRadar = ({ categories, activeId, onSelect }) => {
               cy={point.y}
               r={10}
               fill="none"
-              stroke="#0EA5E9"
+              stroke="#38bdf8"
               strokeWidth={1.5}
               opacity={isActive ? 0.35 : 0}
               className="radar-halo"
@@ -149,8 +149,8 @@ const TechnologyRadar = ({ categories, activeId, onSelect }) => {
               cx={point.x}
               cy={point.y}
               r={4.5}
-              fill={isActive ? '#0EA5E9' : '#020617'}
-              stroke="#0EA5E9"
+              fill={isActive ? '#38bdf8' : '#0c0c0b'}
+              stroke="#38bdf8"
               strokeWidth={2}
               className="radar-dot"
               aria-hidden="true"
@@ -167,7 +167,7 @@ const TechnologyRadar = ({ categories, activeId, onSelect }) => {
               fontSize={12.5}
               fontFamily="JetBrains Mono, monospace"
               fontWeight={500}
-              fill={isActive ? '#0EA5E9' : '#94a3b8'}
+              fill={isActive ? '#7dd3fc' : '#a6a299'}
               className="radar-label"
               aria-hidden="true"
             >

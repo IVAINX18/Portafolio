@@ -1,9 +1,8 @@
-import { ArrowUpRight, Globe } from '@phosphor-icons/react';
+import { ArrowUpRight } from '@phosphor-icons/react';
 import Reveal from './ui/Reveal';
 import SectionHeading from './ui/SectionHeading';
 
-// --- Constants & Data ---
-
+// Datos reales de la publicacion: identificador y enlace del registro IEEE.
 const PUBLICATIONS_DATA = [
   {
     title: 'Academic Research Publication',
@@ -17,85 +16,81 @@ const PUBLICATIONS_DATA = [
   },
 ];
 
-// --- Sub-components ---
-
-const PublicationMeta = ({ label, value, isMono = false }) => (
-  <div className="bg-darker/60 border border-slate-800 rounded-lg p-4">
-    <p className="text-sm text-slate-400 mb-1">{label}</p>
-    <p
-      className={`text-lg font-semibold text-slate-200 ${isMono ? 'font-mono' : ''}`}
-    >
-      {value}
-    </p>
-  </div>
-);
-
-const PublicationCard = ({ publication }) => (
+/**
+ * Research: una publicacion presentada como ficha editorial sin tarjeta.
+ * Los metadatos verificables van a la izquierda y la narrativa a la derecha,
+ * separadas por un hairline superior que ordena el bloque completo.
+ */
+const PublicationEntry = ({ publication }) => (
   <Reveal>
     <article
       aria-labelledby={`publication-${publication.documentId}-title`}
-      className="bg-dark border border-slate-800 rounded-2xl p-6 sm:p-8 md:p-12 transition-colors duration-500 hover:border-primary/50 focus-within:border-primary/50"
+      className="grid gap-10 border-t border-line pt-10 lg:grid-cols-12 lg:gap-8"
     >
-      <p className="inline-block px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-mono mb-5">
-        {publication.subtitle}
-      </p>
-
-      <h3
-        id={`publication-${publication.documentId}-title`}
-        className="text-2xl md:text-3xl font-semibold mb-4"
-      >
-        {publication.title}
-      </h3>
-
-      <p className="text-slate-300 leading-relaxed mb-4 max-w-3xl">
-        {publication.description}
-      </p>
-
-      <div className="flex items-center gap-3 text-slate-400 mb-8">
-        <Globe className="w-5 h-5 shrink-0" weight="bold" aria-hidden="true" />
-        <span className="font-mono text-sm">{publication.source}</span>
+      <div className="lg:col-span-3">
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
+          Publisher
+        </p>
+        <p className="mt-1 font-mono text-sm text-bone">
+          {publication.publisher}
+        </p>
+        <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
+          Document ID
+        </p>
+        <p className="mt-1 font-mono text-sm text-bone">
+          {publication.documentId}
+        </p>
+        <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
+          Indexed in
+        </p>
+        <p className="mt-1 font-mono text-sm text-bone">{publication.source}</p>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
-        <PublicationMeta label="Publisher" value={publication.publisher} />
-        <PublicationMeta
-          label="Document ID"
-          value={publication.documentId}
-          isMono
-        />
+      <div className="lg:col-span-8 lg:col-start-5">
+        <h3
+          id={`publication-${publication.documentId}-title`}
+          className="mb-5 font-display uppercase leading-[0.95] text-2xl md:text-4xl"
+        >
+          {publication.title}
+        </h3>
+        <p className="mb-8 max-w-[62ch] leading-relaxed text-bone-dim">
+          {publication.description}
+        </p>
+        <a
+          href={publication.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Read full publication on IEEE Xplore (opens in a new tab)"
+          className="group inline-flex items-center gap-3 rounded-full border border-line px-6 py-3.5 font-mono text-xs uppercase tracking-[0.14em] text-bone transition-colors duration-300 hover:border-accent/60 hover:text-accent-soft active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+        >
+          Read on IEEE Xplore
+          <ArrowUpRight
+            className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            weight="bold"
+            aria-hidden="true"
+          />
+        </a>
       </div>
-
-      <a
-        href={publication.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Read full publication on IEEE Xplore (opens in a new tab)"
-        className="inline-flex items-center gap-3 px-7 py-3.5 bg-primary hover:bg-sky-400 text-darker font-semibold rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-primary/40 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
-      >
-        <span>Read Full Publication</span>
-        <ArrowUpRight className="w-5 h-5" weight="bold" aria-hidden="true" />
-      </a>
     </article>
   </Reveal>
 );
 
-// --- Main component ---
-
 const Publications = () => {
   return (
     <section
+      id="publications"
       aria-labelledby="publications-title"
-      className="py-24 md:py-32 px-6"
+      className="scroll-mt-20 px-5 py-20 sm:px-8 md:py-28"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="mx-auto max-w-[1400px]">
         <SectionHeading
           id="publications-title"
-          title="Research & Publications"
-          description="Contributing to academic research in technology and innovation."
+          title="Research"
+          description="Peer-reviewed academic work, listed with its real registry data and link."
         />
 
         {PUBLICATIONS_DATA.map((pub) => (
-          <PublicationCard key={pub.documentId} publication={pub} />
+          <PublicationEntry key={pub.documentId} publication={pub} />
         ))}
       </div>
     </section>

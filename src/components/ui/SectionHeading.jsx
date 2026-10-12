@@ -1,24 +1,24 @@
 import Reveal from './Reveal';
 
 /**
- * SectionHeading: consistent section intros across the portfolio.
- * Plain-language headline + optional description. Hierarchy comes from the
- * display face and vertical rhythm; no decorative eyebrow labels and no
- * gradient word per section (both are the templated-AI default).
+ * Titulo de seccion: una sola idea por bloque. Dejo que Anton cargue todo
+ * el peso visual y mantengo la descripcion en Inter con un ancho maximo de
+ * lectura comoda. No uso etiquetas decorativas encima del titulo porque el
+ * propio titulo ya situa la seccion.
  */
 const SectionHeading = ({ id, title, description, align = 'left' }) => (
   <Reveal
-    className={`mb-12 md:mb-16 ${align === 'center' ? 'text-center' : ''}`}
+    className={`mb-14 md:mb-20 ${align === 'center' ? 'text-center' : ''}`}
   >
     <h2
       id={id}
-      className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-50 mb-4 md:mb-5"
+      className="font-display uppercase leading-[0.92] text-[clamp(2.4rem,7vw,5.5rem)] mb-5"
     >
       {title}
     </h2>
     {description && (
       <p
-        className={`text-base md:text-lg text-slate-400 leading-relaxed max-w-2xl ${
+        className={`text-base md:text-lg text-bone-dim leading-relaxed max-w-[54ch] ${
           align === 'center' ? 'mx-auto' : ''
         }`}
       >

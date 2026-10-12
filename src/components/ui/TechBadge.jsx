@@ -1,19 +1,11 @@
 /**
- * TechBadge: single refined tech chip used by every project + skill surface.
- * One definition, consistent spacing / typography / interactive states.
+ * Etiqueta mono para tecnologias. Mantengo las esquinas rectas a proposito:
+ * en este sistema los botones son pill y todo lo demas queda recto, como el
+ * rotulo impreso de una ficha tecnica.
  */
-const TechBadge = ({ children, tone = 'default' }) => {
-  const tones = {
-    default:
-      'bg-slate-800/50 text-slate-300 border-slate-700 hover:border-primary/40 hover:text-slate-100',
-    accent:
-      'bg-primary/10 text-primary border-primary/25 hover:bg-primary/15',
-  };
-
+const TechBadge = ({ children }) => {
   return (
-    <li
-      className={`inline-flex items-center px-3 py-1.5 rounded-full text-[13px] font-mono border transition-colors duration-200 ${tones[tone]}`}
-    >
+    <li className="inline-flex items-center border border-line px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.08em] text-bone-dim">
       {children}
     </li>
   );

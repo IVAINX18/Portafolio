@@ -1,133 +1,88 @@
-import { SealCheck } from '@phosphor-icons/react';
 import Reveal from './ui/Reveal';
 import SectionHeading from './ui/SectionHeading';
-import TechnologyEcosystem from './skills/TechnologyEcosystem';
-import { certifications, softSkills } from '../data/skills';
+import { certifications } from '../data/skills';
 
-// --- Sub-components ----------------------------------------------------------
-
-const BackgroundCard = () => (
-  <div className="bg-dark border border-slate-800 rounded-2xl p-6 sm:p-8 h-full">
-    <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-6">
-      Background
-    </h3>
-    <div className="space-y-4 text-slate-300 leading-relaxed text-[15px] md:text-base">
-      <p>
-        I&apos;m a Systems Engineering student with a solid foundation in
-        programming tools, AI and cybersecurity. While my specialty is Web
-        Development, I also have a keen interest in areas such as information
-        security and data analysis.
-      </p>
-      <p>
-        My goal is to continue growing as a developer and contribute to the
-        creation of secure and innovative technological solutions. I combine
-        technical expertise with creative problem-solving to build engaging
-        digital experiences.
-      </p>
-      <p>
-        I believe in writing clean, maintainable code and staying current with
-        modern web technologies and security best practices.
-      </p>
-    </div>
-  </div>
-);
-
-const CertificationBadge = () => (
-  <span
-    aria-hidden="true"
-    className="mt-0.5 p-2 bg-primary/10 border border-primary/20 rounded-lg shrink-0"
+/**
+ * About: perfil en lenguaje editorial, sin tarjeta de perfil. A la izquierda
+ * va la narrativa (frase manifiesto + parrafos) y a la derecha el registro
+ * verificable: certificaciones y estado actual. Las habilidades blandas
+ * viven ahora en la seccion Toolkit para no fragmentar este bloque.
+ */
+const About = () => (
+  <section
+    id="about"
+    aria-labelledby="about-title"
+    className="scroll-mt-20 border-t border-line px-5 py-24 sm:px-8 md:py-36"
   >
-    <SealCheck
-      className="w-4 h-4 text-primary"
-      weight="bold"
-      aria-hidden="true"
-    />
-  </span>
-);
+    <div className="mx-auto max-w-[1400px]">
+      <SectionHeading id="about-title" title="About" />
 
-const CertificationList = () => (
-  <div
-    id="certificates"
-    className="bg-dark border border-slate-800 rounded-2xl p-6 sm:p-8 h-full scroll-mt-24"
-  >
-    <div className="flex items-baseline justify-between gap-3 mb-6">
-      <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold">
-        Certifications
-      </h3>
-      <p className="font-mono text-xs text-slate-400 shrink-0">
-        {certifications.length} earned
-      </p>
-    </div>
-    <ul className="space-y-3">
-      {certifications.map((cert) => (
-        <li
-          key={cert.title}
-          className="group flex items-start gap-3.5 rounded-lg border border-transparent p-3 -m-3 transition-colors duration-200 hover:border-slate-700 hover:bg-darker/50"
-        >
-          <CertificationBadge />
-          <div className="min-w-0">
-            <h4 className="text-[17px] font-semibold text-slate-200 leading-snug mb-1">
-              {cert.title}
-            </h4>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              {cert.description}
+      <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
+        <Reveal className="lg:col-span-7">
+          <p className="mb-10 max-w-[22ch] font-display uppercase leading-[1.02] text-2xl md:text-4xl">
+            I learn by building, breaking and documenting real systems.
+          </p>
+          <div className="max-w-[62ch] space-y-5 leading-relaxed text-bone-dim">
+            <p>
+              I am a Systems Engineering student with a working foundation in
+              programming tools, AI and cybersecurity. My focus is web
+              development, and I keep a special interest in information
+              security and data analysis.
+            </p>
+            <p>
+              I develop my security tooling under the name Shadow-Net
+              Technologies, and I treat every project as a complete product:
+              code, documentation and a way to try it.
+            </p>
+            <p>
+              I believe in clean, maintainable code, honest documentation and
+              staying current with the technologies I actually use.
             </p>
           </div>
-        </li>
-      ))}
-    </ul>
-  </div>
-);
+        </Reveal>
 
-// --- Main component ----------------------------------------------------------
-
-const About = () => {
-  return (
-    <section
-      id="about"
-      aria-labelledby="about-title"
-      className="py-24 md:py-32 px-6 bg-dark/30 scroll-mt-20"
-    >
-      <div className="max-w-7xl mx-auto">
-        <SectionHeading id="about-title" title="About Me" />
-
-        {/* Background & Certifications */}
-        <div className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 mb-16 md:mb-24">
-          <Reveal>
-            <BackgroundCard />
-          </Reveal>
-          <Reveal delay={0.1}>
-            <CertificationList />
-          </Reveal>
-        </div>
-
-        {/* Technology ecosystem: radar visualization, data-driven */}
-        <div id="skills" className="mb-16 md:mb-20 scroll-mt-20">
-          <TechnologyEcosystem />
-        </div>
-
-        {/* Soft skills */}
-        <Reveal>
-          <h3 className="text-2xl sm:text-3xl font-semibold mb-6 text-center">
-            Soft Skills
-          </h3>
-          <ul
-            aria-label="Soft skills"
-            className="flex flex-wrap justify-center gap-2.5 max-w-3xl mx-auto"
+        <Reveal delay={0.08} className="lg:col-span-5">
+          <div
+            id="certificates"
+            className="scroll-mt-28 border-t border-line pt-6"
           >
-            {softSkills.map((skill) => (
-              <li
-                key={skill}
-                className="px-4 py-2 bg-dark border border-slate-800 rounded-full text-sm text-slate-300"
-              >
-                {skill}
+            <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
+              Certifications
+            </p>
+            <ul className="divide-y divide-line">
+              {certifications.map((cert) => (
+                <li key={cert.title} className="py-4">
+                  <h3 className="mb-1 font-sans text-[15px] font-medium text-bone">
+                    {cert.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-bone-faint">
+                    {cert.description}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="mt-10 border-t border-line pt-6">
+            <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
+              Currently
+            </p>
+            <ul className="space-y-3 text-sm leading-relaxed text-bone-dim">
+              <li>
+                Systems Engineering student, focused on security and applied
+                machine learning.
               </li>
-            ))}
-          </ul>
+              <li>
+                Building Shadow-Net Technologies and its first product,
+                Shadow-Net: Defender.
+              </li>
+              <li>Published academic research with IEEE.</li>
+            </ul>
+          </div>
         </Reveal>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default About;

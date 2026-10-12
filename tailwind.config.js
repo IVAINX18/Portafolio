@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+// Centralizo aqui los tokens del sistema: tinta (fondos), hueso (texto),
+// hairline (bordes de 1px) y un unico acento. Si un valor no esta en esta
+// lista, no existe dentro del diseno; asi el mantenimiento queda controlado.
 export default {
   content: [
     "./index.html",
@@ -6,27 +9,23 @@ export default {
   ],
   theme: {
     extend: {
-      // Identity palette — preserved from the original portfolio.
       colors: {
-        primary: '#0EA5E9',
-        dark: '#0f172a',
-        darker: '#020617',
+        // Escala de tinta: el lienzo casi negro y su version elevada para placas.
+        ink: { DEFAULT: '#0c0c0b', 2: '#141412' },
+        // Escala de hueso: texto principal, secundario y terciario.
+        bone: { DEFAULT: '#edeae3', dim: '#a6a299', faint: '#6e6a62' },
+        // Hairlines editoriales: sustituyen a las tarjetas y sombras.
+        line: '#262521',
+        // Acento unico: se usa para enlaces activos, marcas y estados de foco.
+        accent: { DEFAULT: '#38bdf8', soft: '#7dd3fc' },
       },
-      // Three-role type system (self-hosted variable fonts, see src/index.css):
-      // display = Space Grotesk for headings and identity moments, sans = Inter
-      // for body copy, mono = JetBrains Mono for data labels and code surfaces.
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
+        // Anton: grotesco condensado de un solo peso; la jerarquia la marca
+        // el tamano, como en un cartel impreso.
+        display: ['Anton', 'Impact', 'system-ui', 'sans-serif'],
+        // JetBrains Mono: etiquetas, cifras, anotaciones y datos tecnicos.
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
-      },
-      // Shared elevation tokens for cards.
-      boxShadow: {
-        card: '0 1px 2px rgb(0 0 0 / 0.4)',
-        'card-hover': '0 20px 50px -12px rgb(14 165 233 / 0.25)',
-      },
-      transitionTimingFunction: {
-        'ease-out-soft': 'cubic-bezier(0.22, 1, 0.36, 1)',
       },
     },
   },
