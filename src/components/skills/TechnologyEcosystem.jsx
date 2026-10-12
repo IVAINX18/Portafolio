@@ -122,19 +122,23 @@ const TechnologyEcosystem = () => {
   return (
     <div>
       <div className="grid items-stretch gap-5 md:gap-6 lg:grid-cols-5">
-        {/* Radar */}
+        {/* Radar: figura tecnica con pie de panel, espejo del pie de leyenda */}
         <Reveal className="lg:col-span-3">
           <div className="flex h-full flex-col border border-line bg-ink-2/40 p-4 sm:p-6">
-            <div className="mx-auto w-full max-w-[420px]">
-              <TechnologyRadar
-                categories={skillCategories}
-                activeId={activeId}
-                onSelect={setActiveId}
-              />
-            </div>
-            <p className="mt-2 text-center font-mono text-[11px] leading-relaxed text-bone-faint">
-              Shape reflects tier mix per area, conceptual, not a score
-            </p>
+            <figure className="flex min-h-0 flex-1 flex-col">
+              <div className="flex flex-1 items-center justify-center">
+                <div className="w-full max-w-[520px]">
+                  <TechnologyRadar
+                    categories={skillCategories}
+                    activeId={activeId}
+                    onSelect={setActiveId}
+                  />
+                </div>
+              </div>
+              <figcaption className="mt-auto border-t border-line pt-4 font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em] text-bone-faint">
+                Shape reflects tier mix per area, conceptual, not a score
+              </figcaption>
+            </figure>
           </div>
         </Reveal>
 

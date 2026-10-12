@@ -166,6 +166,14 @@
     transition: opacity 250ms ease-out;
   }
 
+  /*
+   * Radar: el destello del eje activo es solo pintura; la opacidad es lo
+   * unico que cambia y la geometria nunca se mueve con el hover.
+   */
+  .radar-spoke {
+    transition: opacity 200ms ease-out;
+  }
+
   .radar-axis:hover .radar-label,
   .radar-axis:focus-visible .radar-label {
     fill: #edeae3;

@@ -126,7 +126,8 @@ Eliminados:
   progreso de lectura y menu movil a pantalla completa con lineas que entran
   escalonadas. El estado de scroll llega por `useMotionValueEvent`.
 - **Radar y chips**: el contrato de hover mantiene la caja de impacto
-  constante; solo cambian pintura y escala del punto (sin oscilaciones).
+  constante; solo cambian pintura (punto, halo, etiqueta y opacidad del
+  destello del eje) y escala del punto (sin oscilaciones).
 - **Reduced motion**: kill-switch global en CSS + guardas `useReducedMotion`
   en los componentes; el estado final es identico (verificado con captura).
 
@@ -150,8 +151,18 @@ Eliminados:
 
 ## Pruebas ejecutadas y resultados reales
 
-- `npm run build`: exitoso. Ultimo bundle `index-BfH82HhO.js` (381 KB, 119 KB gzip)
-  y CSS `index-L_Z9dS3w.css`.
+- `npm run build`: exitoso. Ultimo bundle `index-BycfJ0RP.js` (381 KB, 119 KB gzip)
+  y CSS `index-WAjkIHnA.css`.
+- QA del restyle del radar como figura tecnica con Chromium headless sobre
+  `vite preview` (1440 y 390 px):
+  - Cero errores de consola.
+  - Sin overflow horizontal: `scrollWidth` igual a `innerWidth` en ambos viewports.
+  - Ninguna etiqueta del perimetro recorta el viewBox (medicion de bounding
+    boxes por script, ademas de revision visual).
+  - Estado hover verificado sobre la etiqueta BACKEND: pasa a hueso, punto
+    solido con halo y destello del eje hasta el anillo exterior.
+  - Capturas revisadas: radar solo, radar en hover, panel del radar y seccion
+    completa en ambos tamanos.
 - `npx eslint .`: exit 0, cero errores. Los dos falsos positivos historicos de
   `motion` en JSX quedaron resueltos con el alias `Motion`.
 - QA con Chromium headless sobre `vite preview` (1440 y 390 px) tras la
@@ -188,6 +199,28 @@ Website paso a `treatment: 'text'`, como Secure-Call.
 El soporte de datos (`image`, `imageAlt`, `caption`, `treatment: 'plate'`) sigue
 vivo en los componentes: si un proyecto futuro merece placa, basta agregar los
 campos, tratando la imagen para que respete la paleta.
+
+## Radar como figura tecnica (restyle del Toolkit)
+
+El radar se leia como un widget de libreria flotando en espacio muerto:
+figura pequena (420 px de maximo), etiquetas en caja normal, relleno plano
+translucido con aspecto de glow y pie centrado sin estructura. Lo trate como
+una figura tecnica impresa del mismo taller editorial: hatch diagonal de 1 px
+en acento (patron de 7 px, rotado 45 grados) sobre una base tenue en vez del
+glow, contorno de 2 px con joins redondos, etiquetas en micro-caps mono
+(11 px, mayusculas, tracking 0.14 em) ancladas a su eje con un tick radial
+corto, cruz de origen de 1 px en color de hairline y destello del eje activo
+solo con opacidad (0 a 0.25) reutilizando el estado `isActive` existente.
+El panel izquierdo subio la figura a 520 px de maximo, con el radar centrado
+en el espacio disponible y el pie como `figcaption` al pie del panel
+(hairline + micro-caps alineada a la izquierda), espejo del pie de leyenda
+del panel derecho. Elegi hatch en vez de relleno plano porque en captura se
+lee texturizado sin ruido y los puntos quedan legibles sobre el; elegi la
+cruz de origen porque se lee mas tecnica que el punto difuso anterior.
+Sin cambios de copy, tokens ni datos; el contrato de hover de metricas
+constantes y toda la semantica (roles, `aria-pressed`, etiquetas, teclado
+Enter/Espacio) quedaron intactos. El detalle de constantes vive en el
+comentario de cabecera de `TechnologyRadar.jsx`.
 
 ## Bloqueos conocidos
 
