@@ -3,9 +3,42 @@
 @tailwind utilities;
 
 /*
- * Design tokens — single source of truth for repeated visual values.
- * The palette itself is preserved from the original identity:
- * darker #020617 · dark #0f172a · primary #0EA5E9.
+ * Self-hosted variable fonts (latin subset). One file per family with the
+ * full weight axis included: no external font CDN, no render-blocking
+ * request, no third-party dependency at runtime.
+ */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/space-grotesk-var-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-var-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('/fonts/jbmono-var-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/*
+ * Design tokens: single source of truth for repeated visual values.
+ * Palette preserved from the original identity: darker #020617,
+ * dark #0f172a, primary #0EA5E9. Type roles are documented in
+ * tailwind.config.js (display / sans / mono).
  */
 :root {
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -29,7 +62,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold;
+    @apply font-display tracking-tight;
     text-wrap: balance;
   }
 
@@ -66,44 +99,7 @@
     }
   }
 
-  /* Subtle hero glow — transform/opacity only, GPU friendly */
-  .animate-pulse-glow {
-    animation: pulse-glow 4s ease-in-out infinite;
-    will-change: opacity, transform;
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% {
-      opacity: 0.3;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.55;
-      transform: scale(1.08);
-    }
-  }
-
-  /*
-   * Discovery drift for the hero arrow — slow, organic, small amplitude.
-   * Deliberately different language from the navbar's sliding indicator:
-   * this one says "keep exploring down", not "you are navigating".
-   */
-  .animate-discover {
-    animation: discover-hint 2.4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
-  }
-
-  @keyframes discover-hint {
-    0%, 100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    50% {
-      transform: translateY(6px);
-      opacity: 0.55;
-    }
-  }
-
-  /* Radar entrance — single soft fade of the data area */
+  /* Radar entrance: single soft fade of the data area */
   .radar-area {
     animation: radar-in 0.8s var(--ease-out) both;
   }
@@ -117,7 +113,7 @@
     }
   }
 
-  /* Radar axes — pointer + keyboard interaction, opacity/fill only */
+  /* Radar axes: pointer + keyboard interaction, opacity/fill only */
   .radar-axis {
     cursor: pointer;
   }
@@ -133,8 +129,8 @@
 
   /*
    * Inner-element animation only: the dot scales around its own center
-   * (transform-box keeps geometry local) while the hitbox — the static
-   * transparent spoke line + constant-metrics label — never changes.
+   * (transform-box keeps geometry local) while the hitbox (the static
+   * transparent spoke line + constant-metrics label) never changes.
    */
   .radar-axis .radar-dot {
     transform-box: fill-box;
@@ -159,7 +155,7 @@
   }
 }
 
-/* Reduced motion: one global kill-switch for every animation path —
+/* Reduced motion: one global kill-switch for every animation path:
  * CSS keyframes, smooth scrolling, and Framer Motion (via the
  * useReducedMotion guards in components). */
 @media (prefers-reduced-motion: reduce) {

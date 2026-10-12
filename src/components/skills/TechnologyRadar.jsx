@@ -1,7 +1,7 @@
 import { categoryBreadth } from '../../data/skills';
 
 /**
- * TechnologyRadar — hand-rolled SVG radar/spider chart (no chart library).
+ * TechnologyRadar: hand-rolled SVG radar/spider chart (no chart library).
  *
  * Renders purely from `skillCategories` in src/data/skills.js. Adding,
  * removing or renaming categories requires zero changes here: axes, rings,
@@ -9,13 +9,13 @@ import { categoryBreadth } from '../../data/skills';
  *
  * Values are CONCEPTUAL breadth indicators derived from tier mix
  * (core > intermediate > familiar), clamped to a moderate band. They are
- * never displayed as numbers or percentages — the shape only suggests
+ * never displayed as numbers or percentages; the shape only suggests
  * relative breadth per area.
  *
  * Structural hover contract: the hitbox (wide transparent spoke line +
  * constant-metrics label) NEVER changes size on hover. Only inner paint
  * (dot fill, halo opacity, label color) and a transform-only dot scale
- * respond — so the pointer can never oscillate between hover states.
+ * respond, so the pointer can never oscillate between hover states.
  */
 
 const SIZE = 400;

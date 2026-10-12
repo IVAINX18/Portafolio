@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Scrollspy — tracks which section owns the viewport midline.
+ * Scrollspy: tracks which section owns the viewport midline.
  * Drives the navbar's active indicator ("you are navigating the system").
  *
  * IntersectionObserver-based: zero scroll-handler cost, no re-renders

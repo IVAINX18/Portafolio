@@ -21,7 +21,7 @@ const CHIP_STYLES = {
 const tierCount = (category, level) =>
   category.items.filter((item) => item.level === level).length;
 
-/** Category with the widest conceptual shape — deterministic default. */
+/** Category with the widest conceptual shape, used as the default. */
 const defaultActiveId = () =>
   skillCategories.reduce((best, cat) =>
     categoryBreadth(cat) > categoryBreadth(best) ? cat : best
@@ -85,7 +85,7 @@ const ActiveCategoryPanel = ({ category }) => (
         return (
           <li key={skill.name}>
             <span
-              title={`${skill.name} — ${SKILL_LEVELS[skill.level]?.label}`}
+              title={`${skill.name} (${SKILL_LEVELS[skill.level]?.label})`}
               className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[13px] font-medium border transition-colors duration-200 ${style.chip}`}
             >
               <span
@@ -105,7 +105,7 @@ const ActiveCategoryPanel = ({ category }) => (
 );
 
 /**
- * TechnologyEcosystem — radar visualization + textual access to the stack.
+ * TechnologyEcosystem: radar visualization + textual access to the stack.
  * Single source of truth: `skillCategories` in src/data/skills.js.
  * The radar is never the only representation: area buttons, the detail
  * panel and a screen-reader listing expose the same data as text.
@@ -118,12 +118,12 @@ const TechnologyEcosystem = () => {
   return (
     <div>
       <Reveal className="mb-8 md:mb-10">
-        <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
-          Technology <span className="text-gradient">Ecosystem</span>
+        <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-center">
+          Technology Ecosystem
         </h3>
         <p className="text-slate-400 text-center mt-3 max-w-2xl mx-auto leading-relaxed">
-          Relative breadth of each area — a conceptual shape, not a measured
-          score. Explore every area for the full list.
+          Relative breadth per area: a conceptual shape, not a measured score.
+          Explore every area for the full list.
         </p>
       </Reveal>
 

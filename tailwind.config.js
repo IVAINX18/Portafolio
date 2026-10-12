@@ -12,9 +12,13 @@ export default {
         dark: '#0f172a',
         darker: '#020617',
       },
+      // Three-role type system (self-hosted variable fonts, see src/index.css):
+      // display = Space Grotesk for headings and identity moments, sans = Inter
+      // for body copy, mono = JetBrains Mono for data labels and code surfaces.
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        display: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       // Shared elevation tokens for cards.
       boxShadow: {

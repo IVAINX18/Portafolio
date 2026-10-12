@@ -1,3 +1,4 @@
+import { ArrowUpRight } from '@phosphor-icons/react';
 import Reveal from '../ui/Reveal';
 import TechBadge from '../ui/TechBadge';
 
@@ -13,24 +14,11 @@ const GitHubIcon = () => (
 );
 
 const ExternalIcon = () => (
-  <svg
-    className="w-4 h-4"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-    />
-  </svg>
+  <ArrowUpRight className="w-4 h-4" weight="bold" aria-hidden="true" />
 );
 
 /**
- * FeaturedProjectCard — flagship treatment for high-complexity work.
+ * FeaturedProjectCard: flagship treatment for high-complexity work.
  * Renders purely from a project object (see src/data/projects.js).
  * No per-project branches: every section guards on data presence.
  */
@@ -42,7 +30,7 @@ const FeaturedProjectCard = ({ project }) => {
     <Reveal>
       <article
         aria-labelledby={`${project.id}-title`}
-        className="group relative bg-dark border border-slate-800 rounded-2xl p-6 sm:p-8 md:p-12 overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 focus-within:border-primary/50"
+        className="group relative bg-dark border border-slate-800 rounded-2xl p-6 sm:p-8 md:p-12 overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 focus-within:border-primary/50"
       >
         {/* Discreet accent: single-hue wash, fades in on hover/focus */}
         <div
@@ -64,7 +52,7 @@ const FeaturedProjectCard = ({ project }) => {
               </p>
               <h3
                 id={`${project.id}-title`}
-                className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight"
+                className="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight"
               >
                 {project.title}
               </h3>
@@ -98,12 +86,12 @@ const FeaturedProjectCard = ({ project }) => {
               {project.metrics.map((metric) => (
                 <div
                   key={metric.label}
-                  className="bg-darker/60 border border-slate-800 rounded-xl px-4 py-3.5"
+                  className="bg-darker/60 border border-slate-800 rounded-lg px-4 py-3.5"
                 >
                   <dt className="order-2 font-mono text-[11px] uppercase tracking-[0.14em] text-slate-400">
                     {metric.label}
                   </dt>
-                  <dd className="order-1 text-xl md:text-2xl font-bold text-slate-100 mb-1">
+                  <dd className="order-1 font-display text-xl md:text-2xl font-semibold text-slate-100 mb-1">
                     {metric.value}
                   </dd>
                 </div>
@@ -152,7 +140,7 @@ const FeaturedProjectCard = ({ project }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${project.title} repository on GitHub (opens in a new tab)`}
-                  className="inline-flex items-center gap-2.5 px-6 py-3 bg-primary hover:bg-sky-400 text-darker font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
+                  className="inline-flex items-center gap-2.5 px-6 py-3 bg-primary hover:bg-sky-400 text-darker font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
                 >
                   <GitHubIcon />
                   <span>View Repository</span>
@@ -163,8 +151,8 @@ const FeaturedProjectCard = ({ project }) => {
                   href={links.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`${project.title} — ${demoLabel.toLowerCase()} (opens in a new tab)`}
-                  className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary hover:bg-primary/10 font-semibold rounded-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
+                  aria-label={`${project.title}, ${demoLabel.toLowerCase()} (opens in a new tab)`}
+                  className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary hover:bg-primary/10 font-semibold rounded-lg transition-all duration-300 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
                 >
                   <span>{demoLabel}</span>
                   <ExternalIcon />

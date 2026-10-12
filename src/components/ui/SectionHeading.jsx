@@ -1,35 +1,24 @@
 import Reveal from './Reveal';
 
 /**
- * SectionHeading — consistent section intros across the portfolio.
- * Keeps the original identity: oversized black headings + gradient accent word.
+ * SectionHeading: consistent section intros across the portfolio.
+ * Plain-language headline + optional description. Hierarchy comes from the
+ * display face and vertical rhythm; no decorative eyebrow labels and no
+ * gradient word per section (both are the templated-AI default).
  */
-const SectionHeading = ({
-  id,
-  eyebrow,
-  title,
-  highlight,
-  description,
-  align = 'left',
-}) => (
+const SectionHeading = ({ id, title, description, align = 'left' }) => (
   <Reveal
     className={`mb-12 md:mb-16 ${align === 'center' ? 'text-center' : ''}`}
   >
-    {eyebrow && (
-      <p className="font-mono text-sm tracking-[0.2em] uppercase text-primary mb-4">
-        <span aria-hidden="true">{'// '}</span>
-        {eyebrow}
-      </p>
-    )}
     <h2
       id={id}
-      className="text-4xl md:text-6xl font-black mb-4 md:mb-6 leading-tight"
+      className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-50 mb-4 md:mb-5"
     >
-      {title} <span className="text-gradient">{highlight}</span>
+      {title}
     </h2>
     {description && (
       <p
-        className={`text-lg text-slate-400 leading-relaxed max-w-2xl ${
+        className={`text-base md:text-lg text-slate-400 leading-relaxed max-w-2xl ${
           align === 'center' ? 'mx-auto' : ''
         }`}
       >

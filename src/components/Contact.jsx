@@ -1,3 +1,4 @@
+import { EnvelopeSimple } from '@phosphor-icons/react';
 import Reveal from './ui/Reveal';
 
 // --- Constants & Data ---
@@ -35,20 +36,11 @@ const SOCIAL_LINKS = [
     name: 'Email',
     url: 'mailto:ivanvelascosanchez74@gmail.com',
     icon: (
-      <svg
+      <EnvelopeSimple
         className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+        weight="bold"
         aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-        />
-      </svg>
+      />
     ),
   },
 ];
@@ -57,11 +49,8 @@ const SOCIAL_LINKS = [
 
 const ContactHeader = () => (
   <Reveal>
-    <p className="font-mono text-sm tracking-[0.2em] uppercase text-primary mb-4">
-      <span aria-hidden="true">{'// '}</span>Contact
-    </p>
-    <h2 id="contact-title" className="text-5xl md:text-7xl font-black mb-6">
-      Let&apos;s <span className="text-gradient">Connect</span>
+    <h2 id="contact-title" className="text-4xl md:text-6xl font-semibold mb-6">
+      Let&apos;s Connect
     </h2>
     <p className="text-lg md:text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
       I&apos;m always open to discussing new projects, creative ideas, or
@@ -70,38 +59,8 @@ const ContactHeader = () => (
   </Reveal>
 );
 
-const ContactHighlight = () => (
-  <Reveal delay={0.1}>
-    <div className="bg-dark border border-slate-800 rounded-2xl p-8 sm:p-12 mb-12">
-      <div className="flex flex-col items-center gap-6 sm:gap-8">
-        <div aria-hidden="true" className="p-6 bg-primary/10 rounded-full">
-          <svg
-            className="w-12 h-12 text-primary"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-            />
-          </svg>
-        </div>
-        <div>
-          <h3 className="text-2xl font-bold mb-3">Get In Touch</h3>
-          <p className="text-slate-400">
-            Feel free to reach out through any of these platforms
-          </p>
-        </div>
-      </div>
-    </div>
-  </Reveal>
-);
-
 const SocialLinks = () => (
-  <Reveal delay={0.15}>
+  <Reveal delay={0.1}>
     <ul
       aria-label="Social and contact links"
       className="flex flex-wrap justify-center gap-4 sm:gap-6"
@@ -114,8 +73,8 @@ const SocialLinks = () => (
             rel={
               social.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'
             }
-            aria-label={`${social.name} — ${social.url.startsWith('mailto:') ? 'send an email' : `open ${social.name} profile in a new tab`}`}
-            className="flex items-center gap-3 px-6 sm:px-8 py-4 bg-dark border-2 border-slate-800 rounded-lg transition-all duration-300 hover:border-primary hover:-translate-y-0.5 text-slate-200 hover:text-white font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-darker"
+            aria-label={`${social.name}, ${social.url.startsWith('mailto:') ? 'send an email' : `open ${social.name} profile in a new tab`}`}
+            className="flex items-center gap-3 px-6 sm:px-8 py-4 bg-dark border border-slate-800 rounded-lg transition-all duration-300 hover:border-primary/60 hover:-translate-y-0.5 text-slate-200 hover:text-white font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-darker"
           >
             {social.icon}
             <span>{social.name}</span>
@@ -127,14 +86,10 @@ const SocialLinks = () => (
 );
 
 const Footer = () => (
-  <Reveal delay={0.2}>
-    <footer className="mt-16 md:mt-20 pt-8 border-t border-slate-800">
-      <p className="text-slate-400 text-sm">
-        Built with React, TailwindCSS &amp; Framer Motion
-      </p>
-      <p className="text-slate-400 text-sm mt-2">
-        © 2024 Ivan Alexander Velasco Sanchez. All rights reserved.
-      </p>
+  <Reveal delay={0.15}>
+    <footer className="mt-16 md:mt-20 pt-8 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm text-slate-500">
+      <p>© {new Date().getFullYear()} Ivan Alexander Velasco Sanchez</p>
+      <p>Built with React, Tailwind CSS &amp; Framer Motion</p>
     </footer>
   </Reveal>
 );
@@ -146,11 +101,10 @@ const Contact = () => {
     <section
       id="contact"
       aria-labelledby="contact-title"
-      className="py-20 md:py-28 px-6 scroll-mt-20"
+      className="py-24 md:py-32 px-6 scroll-mt-20"
     >
       <div className="max-w-4xl mx-auto text-center">
         <ContactHeader />
-        <ContactHighlight />
         <SocialLinks />
         <Footer />
       </div>

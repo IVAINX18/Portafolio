@@ -1,5 +1,5 @@
 /**
- * TechBadge — single refined tech chip used by every project + skill surface.
+ * TechBadge: single refined tech chip used by every project + skill surface.
  * One definition, consistent spacing / typography / interactive states.
  */
 const TechBadge = ({ children, tone = 'default' }) => {
@@ -12,7 +12,7 @@ const TechBadge = ({ children, tone = 'default' }) => {
 
   return (
     <li
-      className={`inline-flex items-center px-3 py-1.5 rounded-md text-[13px] font-mono border transition-colors duration-200 ${tones[tone]}`}
+      className={`inline-flex items-center px-3 py-1.5 rounded-full text-[13px] font-mono border transition-colors duration-200 ${tones[tone]}`}
     >
       {children}
     </li>

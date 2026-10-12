@@ -1,15 +1,15 @@
 /**
- * Skills content — "technology ecosystem" model.
+ * Skills content: "technology ecosystem" model.
  *
  * No arbitrary percentages. Experience is communicated with three honest tiers:
- *   core         — used regularly, comfortable owning work
- *   intermediate — used in real projects, productive with docs
- *   familiar     — touched in coursework / projects, can ramp up fast
+ *   core         - used regularly, comfortable owning work
+ *   intermediate - used in real projects, productive with docs
+ *   familiar     - touched in coursework / projects, can ramp up fast
  *
- * Every technology below is backed by real usage: portfolio code, the four
- * GitHub repositories in src/data/projects.js, or the previously published
+ * Every technology below is backed by real usage: portfolio code, the GitHub
+ * repositories in src/data/projects.js, or the previously published
  * skill list. To add a skill, append { name, level } to a category.
- * To add a category, append a new object — layouts adapt automatically.
+ * To add a category, append a new object, and layouts adapt automatically.
  *
  * `shortLabel` is the compact name used on the radar perimeter; `label` is
  * the full name used in headings, panels and accessible text.
@@ -22,7 +22,7 @@ export const SKILL_LEVELS = {
 };
 
 /**
- * Conceptual radar weight per tier. Used ONLY to derive the radar shape —
+ * Conceptual radar weight per tier. Used ONLY to derive the radar shape,
  * never displayed as a number, percentage or score.
  */
 const LEVEL_WEIGHT = { core: 3, intermediate: 2, familiar: 1 };

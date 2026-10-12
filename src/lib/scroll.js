@@ -1,7 +1,7 @@
 /**
- * Section navigation with designed motion — not a bare `scroll-behavior: smooth`.
+ * Section navigation with designed motion, not a bare `scroll-behavior: smooth`.
  *
- * - easeInOutCubic rAF loop, duration scaled to travel distance (600–1100ms)
+ * - easeInOutCubic rAF loop, duration scaled to travel distance (600-1100ms)
  * - fixed-navbar offset so the target never hides under the header
  * - cancels immediately on user wheel/touch (user always wins)
  * - moves keyboard focus to the target (preventScroll) for screen readers
@@ -39,7 +39,7 @@ const easeInOutCubic = (t) =>
 /**
  * The stylesheet sets `scroll-behavior: smooth` as a progressive
  * enhancement for native jumps. While OUR rAF loop drives the position
- * frame-by-frame, that rule must be parked — otherwise every
+ * frame-by-frame, that rule must be parked, otherwise every
  * window.scrollTo() gets re-smoothed by the browser and the two
  * animations fight (lag, overshoot, extended duration).
  */
@@ -86,7 +86,7 @@ export async function scrollToSection(id, { offset = 76 } = {}) {
   try {
     await document.fonts.ready;
   } catch {
-    // Font API unavailable — fall through and rely on settle correction.
+    // Font API unavailable; fall through and rely on settle correction.
   }
   if (userCancelled || generation !== navGeneration) return;
 
@@ -116,7 +116,7 @@ export async function scrollToSection(id, { offset = 76 } = {}) {
   const finish = () => {
     // Layout can still settle under us (webfont swap, late image
     // dimensions). Re-measure once at arrival and correct a single
-    // time — by now the document is stable, so this converges.
+    // time; by now the document is stable, so this converges.
     const drift = element.getBoundingClientRect().top - offset;
     if (Math.abs(drift) > 2 && !corrected) {
       corrected = true;

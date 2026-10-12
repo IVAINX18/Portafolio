@@ -1,5 +1,5 @@
 /**
- * Project content — single source of truth for Featured + Notable projects.
+ * Project content: single source of truth for Featured + Notable projects.
  *
  * To add a new project, append a new object to the corresponding array.
  * Components render exclusively from these arrays: no structural changes needed.
@@ -21,7 +21,7 @@ export const featuredProjects = [
     // Short, scannable description (full detail lives in the repo README)
     description:
       'Hybrid multi-layer static malware detection for Windows PE files. An MLP classifier scores a 2,387-dimension vector (2,381 EMBER + 6 overlay signals), while YARA, UPX unpacking and forensic layers correlate into a single explainable verdict.',
-    // Problem it solves — communicates technical depth without inventing data
+    // Problem it solves: communicates technical depth without inventing data
     problem:
       'Signature-based antiviruses fail against polymorphic malware, zero-days and overlay payloads. Shadow-Net detects threats by structure and behavior, not by hash.',
     tech: [
@@ -55,9 +55,9 @@ export const featuredProjects = [
       demo: 'https://defender.shadownettechnologies.tech',
       demoLabel: 'Live Preview',
     },
-    // Footnote shown discreetly — authorship / license context from the README
+    // Footnote shown discreetly: authorship / license context from the README
     footnote:
-      'Academic research project · Built with Santiago Cubillos · SHADOW-NET · Private academic license',
+      'Academic research project built with Santiago Cubillos. SHADOW-NET, private academic license.',
   },
 ];
 
@@ -98,19 +98,6 @@ export const notableProjects = [
     links: {
       github: 'https://github.com/IVAINX18/Pagina-de-Hotel',
       demo: 'https://ivainx18.github.io/Pagina-de-Hotel/',
-    },
-  },
-  {
-    id: 'bmi-calculator',
-    eyebrow: 'Web Utility',
-    title: 'BMI Calculator',
-    description:
-      'Interactive Body Mass Index calculator with input validation, visual feedback and health recommendations based on the result.',
-    tech: ['HTML', 'CSS', 'JavaScript', 'PHP'],
-    highlights: ['Input validation', 'Health recommendations'],
-    links: {
-      github: 'https://github.com/IVAINX18/Calculadora_IMC',
-      demo: 'https://ivainx18.github.io/Calculadora_IMC/',
     },
   },
 ];

@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 
 /**
- * Reveal — single reusable scroll-reveal wrapper.
+ * Reveal: single reusable scroll-reveal wrapper.
  * Replaces the duplicated initial/whileInView props scattered across sections.
  *
  * - Fades + rises subtly (no layout shift: transform + opacity only)

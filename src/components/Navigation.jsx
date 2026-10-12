@@ -1,10 +1,12 @@
 import {
   AnimatePresence,
   motion,
+  useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useSpring,
 } from 'framer-motion';
+import { List, X } from '@phosphor-icons/react';
 import { useEffect, useMemo, useState } from 'react';
 import { useActiveSection } from '../hooks/useActiveSection';
 import { scrollToSection } from '../lib/scroll';
@@ -28,17 +30,16 @@ const Logo = ({ onNavigate }) => (
     onClick={(event) => onNavigate(event, 'home')}
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
-    aria-label="Ivan Velasco — back to top"
-    className="text-2xl font-black rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-darker"
+    aria-label="Ivan Velasco, back to top"
+    className="font-display text-2xl font-bold text-primary rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-darker"
   >
-    <span className="text-gradient">IV</span>
+    IV
   </motion.a>
 );
 
 /**
  * Desktop links with a sliding active indicator (spring layout animation).
- * This is the navbar's motion language — "you are navigating the system" —
- * deliberately different from the hero arrow's discovery bob.
+ * This is the navbar's motion language: "you are navigating the system".
  */
 const DesktopMenu = ({ activeId, onNavigate }) => (
   <div className="hidden md:flex items-center gap-6 lg:gap-8">
@@ -84,29 +85,11 @@ const MobileMenuButton = ({ isOpen, onClick }) => (
     aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
     className="md:hidden p-2 -m-2 text-slate-300 hover:text-primary rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
   >
-    <svg
-      className="w-6 h-6"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      {isOpen ? (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M6 18L18 6M6 6l12 12"
-        />
-      ) : (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M4 6h16M4 12h16M4 18h16"
-        />
-      )}
-    </svg>
+    {isOpen ? (
+      <X className="w-6 h-6" weight="bold" aria-hidden="true" />
+    ) : (
+      <List className="w-6 h-6" weight="bold" aria-hidden="true" />
+    )}
   </motion.button>
 );
 
@@ -133,7 +116,7 @@ const MobileMenu = ({ isOpen, activeId, onNavigate }) => (
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className={`flex items-center gap-3 py-3 px-2 font-medium transition-colors duration-200 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                  className={`flex items-center gap-3 py-3 px-2 font-medium transition-colors duration-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                     isActive ? 'text-primary' : 'text-slate-300 hover:text-primary'
                   }`}
                 >
@@ -154,7 +137,7 @@ const MobileMenu = ({ isOpen, activeId, onNavigate }) => (
   </AnimatePresence>
 );
 
-/** Scroll-linked progress hairline — transform-only, spring-smoothed. */
+/** Scroll-linked progress hairline: transform-only, spring-smoothed. */
 const ScrollProgress = () => {
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
@@ -168,7 +151,7 @@ const ScrollProgress = () => {
     <motion.div
       aria-hidden="true"
       style={reduceMotion ? { scaleX: 0 } : { scaleX }}
-      className="absolute bottom-0 left-0 right-0 h-[2px] origin-left bg-gradient-to-r from-primary via-blue-400 to-cyan-400"
+      className="absolute bottom-0 left-0 right-0 h-[2px] origin-left bg-primary"
     />
   );
 };
@@ -176,20 +159,18 @@ const ScrollProgress = () => {
 // --- Main component ---
 
 const Navigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  // Lazy initial state covers reloads / deep links that start mid-page.
+  const [isScrolled, setIsScrolled] = useState(() => window.scrollY > 50);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const sectionIds = useMemo(() => NAV_ITEMS.map((item) => item.id), []);
   const activeId = useActiveSection(sectionIds);
+  const { scrollY } = useScroll();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Scroll-linked state via Motion's motion value: the component re-renders
+  // only when the boolean threshold flips, with no window scroll listener.
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    setIsScrolled(latest > 50);
+  });
 
   // Close the mobile menu with Escape for keyboard users
   useEffect(() => {

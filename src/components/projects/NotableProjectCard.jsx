@@ -1,3 +1,4 @@
+import { ArrowUpRight } from '@phosphor-icons/react';
 import Reveal from '../ui/Reveal';
 import TechBadge from '../ui/TechBadge';
 
@@ -13,24 +14,11 @@ const GitHubIcon = () => (
 );
 
 const ExternalIcon = () => (
-  <svg
-    className="w-4 h-4"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-    />
-  </svg>
+  <ArrowUpRight className="w-4 h-4" weight="bold" aria-hidden="true" />
 );
 
 /**
- * NotableProjectCard — compact, scannable card for supporting projects.
+ * NotableProjectCard: compact, scannable card for supporting projects.
  * Equal-height cards (h-full + mt-auto footer) keep grids aligned.
  * Renders purely from a project object (see src/data/projects.js).
  */
@@ -44,14 +32,14 @@ const NotableProjectCard = ({ project }) => {
     <Reveal className="h-full">
       <article
         aria-labelledby={`${project.id}-title`}
-        className="group h-full flex flex-col bg-dark border border-slate-800 rounded-xl p-6 sm:p-7 transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 focus-within:border-primary/50"
+        className="group h-full flex flex-col bg-dark border border-slate-800 rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 focus-within:border-primary/50"
       >
-        <p className="font-mono text-xs tracking-[0.16em] uppercase text-primary mb-3">
+        <p className="font-mono text-xs text-primary/90 mb-3">
           {project.eyebrow}
         </p>
         <h3
           id={`${project.id}-title`}
-          className="text-xl sm:text-2xl font-bold mb-3 leading-snug"
+          className="text-xl sm:text-2xl font-semibold mb-3 leading-snug"
         >
           {project.title}
         </h3>
@@ -91,8 +79,8 @@ const NotableProjectCard = ({ project }) => {
                 href={links.demo}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${project.title} — ${demoLabel.toLowerCase()} (opens in a new tab)`}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary hover:bg-sky-400 text-darker text-sm font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
+                aria-label={`${project.title}, ${demoLabel.toLowerCase()} (opens in a new tab)`}
+                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary hover:bg-sky-400 text-darker text-sm font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
               >
                 <span>{demoLabel}</span>
                 <ExternalIcon />
@@ -104,7 +92,7 @@ const NotableProjectCard = ({ project }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${project.title} repository on GitHub (opens in a new tab)`}
-                className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-primary/70 text-primary hover:bg-primary/10 text-sm font-semibold rounded-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark ${
+                className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-primary/70 text-primary hover:bg-primary/10 text-sm font-semibold rounded-lg transition-all duration-300 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark ${
                   hasDemo ? '' : 'flex-1'
                 }`}
               >
