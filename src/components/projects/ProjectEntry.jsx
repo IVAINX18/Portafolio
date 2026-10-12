@@ -11,15 +11,18 @@ import TechBadge from '../ui/TechBadge';
 const ProjectLinks = ({ project }) => {
   const demoLabel = project.links?.demoLabel || 'Live demo';
 
+  // Mantengo cada enlace en una sola linea (whitespace-nowrap): el quiebre,
+  // si hace falta en pantallas muy estrechas, ocurre entre enlaces, nunca
+  // dentro de uno.
   return (
-    <div className="flex flex-wrap gap-x-8 gap-y-3">
+    <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
       {project.links?.github && (
         <a
           href={project.links.github}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${project.title} repository on GitHub (opens in a new tab)`}
-          className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-bone"
+          className="group inline-flex items-center gap-2 whitespace-nowrap font-mono text-xs uppercase tracking-[0.14em] text-bone"
         >
           <GithubLogo className="h-4 w-4" aria-hidden="true" />
           <span className="link-underline">Repository</span>
@@ -36,7 +39,7 @@ const ProjectLinks = ({ project }) => {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${project.title}, ${demoLabel.toLowerCase()} (opens in a new tab)`}
-          className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-accent-soft"
+          className="group inline-flex items-center gap-2 whitespace-nowrap font-mono text-xs uppercase tracking-[0.14em] text-accent-soft"
         >
           <span className="link-underline">{demoLabel}</span>
           <ArrowUpRight
@@ -50,22 +53,51 @@ const ProjectLinks = ({ project }) => {
   );
 };
 
+/**
+ * Composicion apilada de identidad + detalle para la variante 'plate'.
+ * No duplico el marcado: reuso ProjectIdentity y ProjectDetail y solo agrego
+ * la separacion vertical que la placa necesita con un wrapper.
+ */
 const ProjectMeta = ({ project }) => (
+  <>
+    <ProjectIdentity project={project} />
+    <div className="mt-6">
+      <ProjectDetail project={project} />
+    </div>
+  </>
+);
+
+/**
+ * Identidad de la fila del libro mayor: etiqueta, titulo de cartel y rol.
+ * La uso en la variante tipografica ('text') y, a traves de ProjectMeta,
+ * tambien en la variante 'plate'.
+ */
+const ProjectIdentity = ({ project }) => (
   <>
     <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
       {project.eyebrow}
     </p>
     <h3
       id={`${project.id}-title`}
-      className="mb-3 font-display uppercase leading-[0.95] text-3xl md:text-4xl"
+      className="font-display text-4xl uppercase leading-[0.95] md:text-5xl"
     >
       {project.title}
     </h3>
     {project.role && (
-      <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-soft">
+      <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-soft">
         {project.role}
       </p>
     )}
+  </>
+);
+
+/**
+ * Detalle de la fila del libro mayor: descripcion, destacados, stack y
+ * enlaces. Vive en el bloque derecho del grid para que la fila use las 12
+ * columnas completas con la columna de aire en medio.
+ */
+const ProjectDetail = ({ project }) => (
+  <>
     <p className="mb-6 max-w-[54ch] leading-relaxed text-bone-dim">
       {project.description}
     </p>
@@ -96,14 +128,22 @@ const ProjectMeta = ({ project }) => (
 const ProjectEntry = ({ project }) => {
   const isPlate = project.treatment === 'plate';
 
-  // Variante tipografica: el bloque se desplaza a la derecha para romper la
-  // alineacion de la columna principal y crear la asimetria editorial.
+  // Variante tipografica como fila de libro mayor a todo el ancho: identidad
+  // a la izquierda (cols 1-5), columna de aire en medio y detalle a la
+  // derecha (cols 7-12). El hairline de cierre lo pone el article; el de
+  // apertura lo pone la regla de la etiqueta en Work.jsx.
   if (!isPlate) {
     return (
-      <article aria-labelledby={`${project.id}-title`}>
-        <div className="grid lg:grid-cols-12">
-          <Reveal className="lg:col-span-6 lg:col-start-6">
-            <ProjectMeta project={project} />
+      <article
+        aria-labelledby={`${project.id}-title`}
+        className="border-b border-line"
+      >
+        <div className="grid gap-10 py-12 md:py-16 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-5">
+            <ProjectIdentity project={project} />
+          </Reveal>
+          <Reveal delay={0.08} className="lg:col-span-6 lg:col-start-7">
+            <ProjectDetail project={project} />
           </Reveal>
         </div>
       </article>

@@ -4,9 +4,10 @@ import ProjectEntry from './projects/ProjectEntry';
 import SectionHeading from './ui/SectionHeading';
 
 /**
- * Selected work: el flagship abre con la composicion mas grande; los
- * proyectos secundarios alternan tratamiento (placa con captura o bloque
- * tipografico) para que la seccion no se lea como una cuadricula uniforme.
+ * Selected work: el flagship abre con la composicion mas grande; el bloque
+ * "More work" es un libro mayor editorial a todo el ancho (etiqueta con
+ * hairline a borde derecho y filas separadas por hairlines), asi ninguna
+ * entrada vuelve a leerse como una columna central estrecha.
  */
 const Work = () => (
   <section
@@ -26,10 +27,14 @@ const Work = () => (
       ))}
 
       <div className="mt-24 md:mt-32">
-        <p className="mb-10 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
-          More work
-        </p>
-        <div className="space-y-24 md:space-y-32">
+        {/* Etiqueta flotante convertida en regla a todo el ancho: su borde
+            inferior es el hairline de apertura de la primera fila. */}
+        <div className="border-b border-line pb-4">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
+            More work
+          </p>
+        </div>
+        <div>
           {notableProjects.map((project) => (
             <ProjectEntry key={project.id} project={project} />
           ))}

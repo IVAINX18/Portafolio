@@ -85,8 +85,13 @@ Eliminados:
 - **Work**: recorre `featuredProjects` y `notableProjects`. El flagship se
   presenta como dossier (problema, descripcion, rol, stack, enlaces, nota y
   metricas verificadas como tira tipografica). Las entradas secundarias usan
-  `treatment: 'plate'` (captura + texto) o `'text'` (bloque tipografico
-  desplazado); hoy ambas usan `'text'` porque las capturas se retiraron.
+  `treatment: 'plate'` (captura + texto) o `'text'` (fila de libro mayor a
+  todo el ancho); hoy ambas usan `'text'` porque las capturas se retiraron.
+  Tras retirar las capturas, la variante `'text'` vivia en `lg:col-span-6
+  lg:col-start-6` y se leia como una columna central estrecha con la mitad
+  izquierda del contenedor vacia; ahora cada fila usa las 12 columnas
+  (identidad en cols 1-5, aire en medio, detalle en cols 7-12) con hairlines
+  como unica estructura y la etiqueta "More work" como regla a todo el ancho.
 - **Marquee**: dos mitades identicas y un desplazamiento del 50% para el bucle
   perfecto. Decorativa (`aria-hidden`), se detiene con reduced motion.
 - **Publications**: ficha de la publicacion IEEE con metadatos reales
@@ -133,7 +138,9 @@ Eliminados:
   documentada en el design system).
 - **Sin tarjetas**: jerarquia por tamanos, hairlines y espacio negativo.
 - **Desktop**: composicion editorial de 12 columnas con asimetrias
-  (dossier 7/5, entradas desplazadas a `col-start-6` y `col-start-9`).
+  (dossier 7/5, libro mayor de "More work" 5 + aire + 6 con hairlines).
+  La variante `'text'` no copia la composicion del flagship (sin spec-dl
+  ni tira de metricas): es identidad a la izquierda y detalle a la derecha.
 - **Tablet**: los grids colapsan a una columna antes de comprimirse; el radar
   y su panel pasan a apilarse.
 - **Movil**: orden del hero reorganizado (nombre, retrato, texto, CTAs);
@@ -143,10 +150,20 @@ Eliminados:
 
 ## Pruebas ejecutadas y resultados reales
 
-- `npm run build`: exitoso. Ultimo bundle `index-BGqVMdsY.js` (381 KB, 119 KB gzip)
-  y CSS `index-BsyO-fVk.css`.
+- `npm run build`: exitoso. Ultimo bundle `index-BfH82HhO.js` (381 KB, 119 KB gzip)
+  y CSS `index-L_Z9dS3w.css`.
 - `npx eslint .`: exit 0, cero errores. Los dos falsos positivos historicos de
   `motion` en JSX quedaron resueltos con el alias `Motion`.
+- QA con Chromium headless sobre `vite preview` (1440 y 390 px) tras la
+  recomposicion del libro mayor de "More work":
+  - Cero errores de consola.
+  - Sin overflow horizontal: `scrollWidth` igual a `innerWidth` en ambos viewports.
+  - Las filas notables ocupan el contenedor completo (1376 px sobre 1376 px
+    a 1440; 350 px sobre 350 px a 390), ya no la mitad derecha.
+  - Titulos a `text-5xl` (48 px) en desktop y `text-4xl` (36 px) en movil.
+  - Los enlaces Repository / Live demo quedan en una sola linea en ambos tamanos.
+  - Capturas revisadas: fila Secure-Call + etiqueta, fila Hotel Website,
+    etiqueta "More work" como regla a todo el ancho, apilado movil.
 - QA con Chromium headless sobre `vite preview` (1440, 768 y 390 px):
   - Las tres fuentes cargan (`document.fonts.check` en Anton, Inter y JetBrains Mono).
   - Cero errores de consola y cero peticiones a Google Fonts.
