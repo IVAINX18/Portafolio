@@ -9,7 +9,10 @@
  *
  * All fields below come from the real GitHub repositories (README / file tree /
  * languages / package manifests). No invented demos, stacks or metrics.
- * Las capturas en public/projects/ son tomas reales de las demos en vivo.
+ * Retire las capturas de las demos en vivo: sus paletas (verde, morado)
+ * chocaban con el sistema tinta/hueso. Los campos image/imageAlt/caption
+ * siguen soportados por los componentes si alguna captura futura respeta
+ * el lenguaje visual.
  */
 
 // --- Featured projects -------------------------------------------------------
@@ -55,11 +58,7 @@ export const featuredProjects = [
       { value: '~15 ms', label: 'ONNX inference' },
       { value: '2,387', label: 'Feature dims' },
     ],
-    // Captura real de la demo en vivo, tomada con Chromium headless
-    image: '/projects/shadow-net-defender.jpg',
-    imageAlt:
-      'Sign-in screen of Shadow-Net Defender with the shield emblem, email and password fields, a Google sign-in option and the sign-up link.',
-    caption: 'Sign-in screen of the live app at defender.shadownettechnologies.tech',
+    // Sin captura: la pantalla de la demo en vivo rompia el sistema tinta/hueso
     links: {
       github:
         'https://github.com/IVAINX18/Shadow-Net-Defender-Hybrid-Malware-Detection',
@@ -111,12 +110,9 @@ export const notableProjects = [
       'Hotel website built for the TalentoTECH bootcamp: landing, booking, reservation management and inventory pages with gallery and responsive layout.',
     tech: ['HTML', 'CSS', 'JavaScript', 'PHP'],
     highlights: ['Booking interface', 'Reservation + inventory pages'],
-    // Captura real de la demo publica en GitHub Pages
-    image: '/projects/hotel-website.jpg',
-    imageAlt:
-      'Home page of the Hotel Cerrrito demo with its green hero, the section navigation and the welcome copy.',
-    caption: 'Home page of the live demo on GitHub Pages',
-    treatment: 'plate',
+    // La captura de la demo (hero verde) se retiro por paleta; queda el bloque
+    // tipografico, como en las demas entradas.
+    treatment: 'text',
     links: {
       github: 'https://github.com/IVAINX18/Pagina-de-Hotel',
       demo: 'https://ivainx18.github.io/Pagina-de-Hotel/',

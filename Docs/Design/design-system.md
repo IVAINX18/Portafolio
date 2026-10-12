@@ -61,8 +61,10 @@ hero name `clamp(3.6rem, 22vw, 12.5rem)`, section titles
 - No em-dashes in visible copy. No decorative eyebrows or section numbers.
   No gradient text. The hand-drawn underline in the hero is the single
   decorative mark, drawn as a simple SVG stroke.
-- Screenshots are real captures of the live demos (`public/projects/`),
-  and captions describe exactly what each image shows.
+- No live-app screenshots: the capture plates were retired because their
+  palettes (bright green, violet) fought the ink/bone system. If a capture
+  ever returns, it must be toned to the palette, with a caption describing
+  exactly what it shows.
 - Metrics and claims come from the real repositories; nothing is invented.
 - Icons: Phosphor only. Brand marks use the canonical brand paths.
 

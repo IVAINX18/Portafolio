@@ -22,7 +22,7 @@ No tests, no CI. Verification before reporting work done = `npm run lint` + `npm
 ## Content and data
 
 - All project/skill content lives in `src/data/projects.js` and `src/data/skills.js`; components render from those arrays only. Add projects by appending data objects — the `treatment` ('plate' | 'text') and `image`/`imageAlt`/`caption` fields drive layout, so no component edits are needed.
-- Never invent clients, metrics, testimonials, awards, or results. Every UI claim must be traceable to the real repos/demos; screenshots in `public/projects/` are real captures of the live sites.
+- Never invent clients, metrics, testimonials, awards, or results. Every UI claim must be traceable to the real repos/demos. Capture plates were retired (real screenshots of the live apps clashed with the ink/bone palette); if one is reintroduced it must still be a real capture.
 - Visible copy rules: no em-dashes, no decorative section numbers ("01/02"), no gradient text.
 - Comments: first person (Spanish or English), no emojis; explain WHY for non-obvious logic (see `src/lib/scroll.js`, `src/data/projects.js`).
 
