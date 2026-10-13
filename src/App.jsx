@@ -23,7 +23,13 @@ function App() {
       <main id="main-content">
         <Hero />
         <Work />
-        <Marquee text="Shadow-Net Defender" />
+        <Marquee
+          items={[
+            'Shadow-Net: Defender',
+            'Shadow-Net: Bills',
+            'Shadow-Net: StockFlow',
+          ]}
+        />
         <Publications />
         <About />
         <Skills />

@@ -60,8 +60,12 @@ const FlagshipProject = ({ project }) => {
         </Reveal>
       )}
 
-      <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
-        <Reveal className="lg:col-span-7">
+      {/* Dos columnas equilibradas: el texto ocupa la mitad y la ficha
+          se pliega en dos columnas internas (Role | Links, Stack ancho
+          completo, Note a todo lo ancho) para que ambos lados midan casi
+          lo mismo y no quede un vacio bajo el texto. */}
+      <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+        <Reveal className="lg:col-span-6">
           <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
             Problem
           </p>
@@ -73,8 +77,8 @@ const FlagshipProject = ({ project }) => {
           </p>
         </Reveal>
 
-        <Reveal delay={0.08} className="lg:col-span-5">
-          <dl className="divide-y divide-line border-t border-line">
+        <Reveal delay={0.08} className="lg:col-span-6">
+          <dl className="grid gap-x-8 border-t border-line sm:grid-cols-2">
             {project.role && (
               <div className="py-5">
                 <dt className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
@@ -85,19 +89,7 @@ const FlagshipProject = ({ project }) => {
                 </dd>
               </div>
             )}
-            <div className="py-5">
-              <dt className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
-                Stack
-              </dt>
-              <dd>
-                <ul className="flex flex-wrap gap-2">
-                  {project.tech.map((tech) => (
-                    <TechBadge key={tech}>{tech}</TechBadge>
-                  ))}
-                </ul>
-              </dd>
-            </div>
-            <div className="py-5">
+            <div className="border-t border-line py-5 sm:border-t-0">
               <dt className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
                 Links
               </dt>
@@ -137,19 +129,37 @@ const FlagshipProject = ({ project }) => {
                 )}
               </dd>
             </div>
-            {project.footnote && (
-              <div className="py-5">
-                <dt className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
-                  Note
-                </dt>
-                <dd className="font-mono text-xs leading-relaxed text-bone-faint">
-                  {project.footnote}
-                </dd>
-              </div>
-            )}
+            <div className="border-t border-line py-5 sm:col-span-2">
+              <dt className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
+                Stack
+              </dt>
+              <dd>
+                <ul className="flex flex-wrap gap-2">
+                  {project.tech.map((tech) => (
+                    <TechBadge key={tech}>{tech}</TechBadge>
+                  ))}
+                </ul>
+              </dd>
+            </div>
           </dl>
         </Reveal>
       </div>
+
+      {/* La nota baja a fila completa: con cuatro bloques apilados la ficha
+          siempre superaba al texto y dejaba un vacio bajo la izquierda.
+          Como tira de pie a todo lo ancho mantiene etiqueta y hairline. */}
+      {project.footnote && (
+        <Reveal delay={0.05}>
+          <div className="mt-10 border-t border-line py-5 lg:mt-12">
+            <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
+              Note
+            </p>
+            <p className="max-w-[72ch] font-mono text-xs leading-relaxed text-bone-faint">
+              {project.footnote}
+            </p>
+          </div>
+        </Reveal>
+      )}
 
       {/* Metricas como tira tipografica: numeros grandes en Anton y etiqueta
           mono debajo, separadas por hairlines en vez de cajas. */}

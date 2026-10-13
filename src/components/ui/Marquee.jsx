@@ -1,9 +1,11 @@
 /**
  * Cinta de texto en movimiento: dejo dos mitades identicas dentro de un
  * track y desplazo exactamente el 50%, de modo que el bucle no tiene salto.
- * La marco como decorativa porque repite el nombre del producto que ya vive
- * en la seccion de proyectos; es el unico marquee de la pagina y funciona
- * como separador entre bloques.
+ * Cada mitad repite dos veces la secuencia de titulos de la familia: con ese
+ * ancho alcanza para cubrir la ventana y el loop sigue siendo continuo.
+ * La marco como decorativa porque repite nombres que ya viven en la seccion
+ * de proyectos; es el unico marquee de la pagina y funciona como separador
+ * entre bloques.
  */
 const Sparkle = () => (
   <svg
@@ -18,27 +20,31 @@ const Sparkle = () => (
   </svg>
 );
 
-const Half = ({ text }) => (
+const Half = ({ items }) => (
   <span className="flex shrink-0">
-    {Array.from({ length: 5 }).map((_, index) => (
-      <span key={index} className="flex items-center">
-        <span className="whitespace-nowrap px-7 font-display uppercase text-4xl leading-none md:text-6xl">
-          {text}
-        </span>
-        <Sparkle />
+    {Array.from({ length: 2 }).map((_, groupIndex) => (
+      <span key={groupIndex} className="flex items-center">
+        {items.map((text) => (
+          <span key={text} className="flex items-center">
+            <span className="whitespace-nowrap px-7 font-display uppercase text-4xl leading-none md:text-6xl">
+              {text}
+            </span>
+            <Sparkle />
+          </span>
+        ))}
       </span>
     ))}
   </span>
 );
 
-const Marquee = ({ text }) => (
+const Marquee = ({ items }) => (
   <div
     aria-hidden="true"
     className="select-none overflow-hidden border-y border-line py-6 md:py-8"
   >
     <div className="marquee-track flex w-max">
-      <Half text={text} />
-      <Half text={text} />
+      <Half items={items} />
+      <Half items={items} />
     </div>
   </div>
 );

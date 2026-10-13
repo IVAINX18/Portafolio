@@ -101,21 +101,54 @@ export const notableProjects = [
       demo: null,
     },
   },
+  // Familia Shadow-Net: sumo los dos repos hermanos del flagship. Bills aun
+  // no tiene codigo: titulo, alcance y stack salen de su especificacion.
+  // StockFlow ya tiene las fundaciones (fase 0) y va en fase 1. Declaro ambos
+  // estados tal cual, sin vender lo que todavia no existe.
   {
-    id: 'hotel-website',
-    eyebrow: 'Multi-page Web App',
-    title: 'Hotel Website',
-    role: 'Built during the TalentoTECH web development bootcamp.',
+    id: 'shadow-net-bills',
+    eyebrow: 'Personal Finance Manager',
+    title: 'Shadow-Net: Bills',
+    role: 'Shadow-Net Technologies project, in the specification phase.',
     description:
-      'Hotel website built for the TalentoTECH bootcamp: landing, booking, reservation management and inventory pages with gallery and responsive layout.',
-    tech: ['HTML', 'CSS', 'JavaScript', 'PHP'],
-    highlights: ['Booking interface', 'Reservation + inventory pages'],
-    // La captura de la demo (hero verde) se retiro por paleta; queda el bloque
-    // tipografico, como en las demas entradas.
+      'Personal financial obligations manager for Colombia: bills, subscriptions and recurring payments with email reminders, a monthly calendar and an expense summary. Manual-first by design, with no bank integrations, no payment initiation and no AI or OCR; the repository currently holds only the specification.',
+    tech: ['React', 'TypeScript', 'FastAPI', 'Python', 'Supabase', 'PostgreSQL'],
+    highlights: [
+      'Manual-first MVP: no bank credentials, money never moves',
+      'Email reminders at 3, 1 and 0 days before each due date',
+      'Specification fully written before any code',
+    ],
     treatment: 'text',
     links: {
-      github: 'https://github.com/IVAINX18/Pagina-de-Hotel',
-      demo: 'https://ivainx18.github.io/Pagina-de-Hotel/',
+      github: 'https://github.com/IVAINX18/Shadow-Net-Bills',
+      demo: null,
+    },
+  },
+  {
+    id: 'shadow-net-stockflow',
+    eyebrow: 'Inventory & Logistics ERP',
+    title: 'Shadow-Net: StockFlow',
+    role: 'Shadow-Net Technologies ecosystem product, in development.',
+    description:
+      'Multi-warehouse inventory and logistics ERP built around an immutable movement ledger (kardex): every stock operation is confirmed in an atomic transaction with row locking to prevent overselling, idempotency against duplicates and traceable reversals. Laravel 13 API, Angular 22 SPA and MySQL 8.4; phase 1 (authentication, RBAC, warehouses) in progress.',
+    tech: [
+      'Laravel',
+      'PHP',
+      'Angular',
+      'TypeScript',
+      'MySQL',
+      'Podman',
+      'GitHub Actions',
+    ],
+    highlights: [
+      'Immutable kardex, not a stock column',
+      'Atomic transactions with row locking and idempotency',
+      'Versioned /api/v1 REST API with OpenAPI docs',
+    ],
+    treatment: 'text',
+    links: {
+      github: 'https://github.com/IVAINX18/Shadow-Net-StockFlow',
+      demo: null,
     },
   },
 ];
