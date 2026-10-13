@@ -46,8 +46,9 @@ hero name `clamp(3.6rem, 22vw, 12.5rem)`, section titles
 - Dials: `DESIGN_VARIANCE 9`, `MOTION_INTENSITY 6`, `VISUAL_DENSITY 3`.
 - Motivated motion only: masked line reveals (hero), scroll reveals
   (`Reveal`), underlined links that draw on hover/focus, one marquee band
-  acting as section divider, slider physics on the radar, sliding nav
-  indicator, and the animated mobile menu.
+  acting as section divider, the staged radar entrance plus its per-area
+  constellation unfold on selection, sliding nav indicator, and the
+  animated mobile menu.
 - The marquee band is capped at one per page.
 - `prefers-reduced-motion` collapses everything to static via the global CSS
   kill-switch plus `useReducedMotion` guards in components.
@@ -71,7 +72,8 @@ hero name `clamp(3.6rem, 22vw, 12.5rem)`, section titles
 ## Structure
 
 - Sections: Hero, Work (flagship dossier + secondary entries), Marquee band,
-  Research, About, Toolkit, Contact + footer.
+  Research, About, Toolkit (radar with per-area constellation), Contact +
+  footer.
 - `src/data/projects.js` and `src/data/skills.js` are the single sources of
   truth. The `treatment` ('plate' or 'text') and `image` fields in the
   project data encode the visual composition, so components stay data-driven.

@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { ArrowLeft, SquaresFour } from '@phosphor-icons/react';
 import Reveal from '../ui/Reveal';
 import TechnologyRadar from './TechnologyRadar';
 import {
   SKILL_LEVELS,
-  categoryBreadth,
   skillCategories,
 } from '../../data/skills';
 
 // La misma escala de color significa lo mismo en todo el bloque: el acento
 // marca lo que uso a diario y el hueso se apaga conforme baja la profundidad
-// de uso. Es identica en el radar, las fichas y la leyenda.
+// de uso. Es identica en el radar, los nodos de la constelacion, las fichas
+// y la leyenda.
 const CHIP_STYLES = {
   core: {
     chip: 'border-accent/50 bg-accent/10 text-bone',
@@ -25,14 +26,16 @@ const CHIP_STYLES = {
   },
 };
 
+// Totales derivados del dataset para la intro del nivel 1; los calculo una
+// sola vez fuera del componente porque src/data/skills.js es estatico.
+const TOTAL_AREAS = skillCategories.length;
+const TOTAL_TECHNOLOGIES = skillCategories.reduce(
+  (sum, cat) => sum + cat.items.length,
+  0
+);
+
 const tierCount = (category, level) =>
   category.items.filter((item) => item.level === level).length;
-
-/** Categoria con la forma conceptual mas amplia; la uso como seleccion por defecto. */
-const defaultActiveId = () =>
-  skillCategories.reduce((best, cat) =>
-    categoryBreadth(cat) > categoryBreadth(best) ? cat : best
-  ).id;
 
 const TierLegend = () => (
   <ul
@@ -58,71 +61,67 @@ const TierLegend = () => (
 );
 
 /**
- * Panel de detalle con altura minima FIJA: cambiar de categoria no debe
- * redimensionar el panel porque el reflujo bajo el cursor puede reactivar
- * el hover y oscilar. El contenido hace cross-fade y la geometria no se mueve.
- */
-const ActiveCategoryPanel = ({ category }) => (
-  <div
-    aria-live="polite"
-    aria-label="Selected area details"
-    className="min-h-[15rem]"
-  >
-    <div className="mb-1.5 flex items-baseline justify-between gap-3">
-      <h4 className="font-sans text-lg font-semibold text-bone">
-        {category.label}
-      </h4>
-      <p className="shrink-0 font-mono text-xs text-bone-faint">
-        {category.items.length} tech
-      </p>
-    </div>
-    <p className="mb-4 font-mono text-xs text-bone-faint">
-      {['core', 'intermediate', 'familiar']
-        .map((level) => `${tierCount(category, level)} ${SKILL_LEVELS[level].label}`)
-        .join(', ')}
-    </p>
-    <ul
-      aria-label={`${category.label} technologies`}
-      className="flex flex-wrap gap-2"
-    >
-      {category.items.map((skill) => {
-        const style = CHIP_STYLES[skill.level] || CHIP_STYLES.familiar;
-        return (
-          <li key={skill.name}>
-            <span
-              title={`${skill.name} (${SKILL_LEVELS[skill.level]?.label})`}
-              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors duration-200 ${style.chip}`}
-            >
-              <span
-                aria-hidden="true"
-                className={`h-1.5 w-1.5 shrink-0 rounded-full ${style.dot}`}
-              />
-              {skill.name}
-              <span className="sr-only">
-                ({SKILL_LEVELS[skill.level]?.label})
-              </span>
-            </span>
-          </li>
-        );
-      })}
-    </ul>
-  </div>
-);
-
-/**
- * TechnologyEcosystem: radar + acceso textual al stack. El radar nunca es la
- * unica representacion: los botones de area, el panel de detalle y la lista
- * para lectores de pantalla exponen los mismos datos como texto.
+ * Maquina de estados del bloque (L1 -> L2 -> L3):
+ * - L1 overview: sin area seleccionada; intro compacta + pista + areas + leyenda.
+ * - L2 area: la constelacion se despliega; el panel muestra el detalle del area
+ *   con fichas que son botones reales hacia L3.
+ * - L3 tecnologia: el nodo queda marcado, los hermanos siguen visibles como
+ *   contexto; el panel muestra el detalle de la tecnologia con vuelta atras.
+ * La seleccion solo cambia con click/tap/Enter/Espacio o Escape (reset).
+ * El hover/foco son solo pintura y vista previa, nunca mueven el estado.
  */
 const TechnologyEcosystem = () => {
-  const [activeId, setActiveId] = useState(defaultActiveId);
-  const active =
-    skillCategories.find((cat) => cat.id === activeId) ?? skillCategories[0];
+  const [selectedAreaId, setSelectedAreaId] = useState(null);
+  const [selectedTechName, setSelectedTechName] = useState(null);
+  const [previewTechName, setPreviewTechName] = useState(null);
+
+  const activeCategory =
+    skillCategories.find((cat) => cat.id === selectedAreaId) ?? null;
+  const selectedItem =
+    activeCategory?.items.find((item) => item.name === selectedTechName) ??
+    null;
+  // Vista previa del readout al pasar o enfocar un nodo: solo pinta texto,
+  // solo existe en L2 (en L3 el detalle ya ocupa el panel y no lo tapo).
+  const previewItem =
+    !selectedItem && previewTechName
+      ? activeCategory?.items.find((item) => item.name === previewTechName) ??
+        null
+      : null;
+
+  const selectArea = (id) => {
+    setSelectedAreaId(id);
+    setSelectedTechName(null);
+    setPreviewTechName(null);
+  };
+
+  const resetAll = () => {
+    setSelectedAreaId(null);
+    setSelectedTechName(null);
+    setPreviewTechName(null);
+  };
+
+  // Escape vuelve a L1 desde cualquier nivel; es keydown (no scroll), asi que
+  // no choca con la prohibicion de listeners de scroll del proyecto.
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') resetAll();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  const readout = selectedItem
+    ? `${selectedItem.name} · ${SKILL_LEVELS[selectedItem.level]?.label}`
+    : previewItem
+      ? `${previewItem.name} · ${SKILL_LEVELS[previewItem.level]?.label}`
+      : activeCategory
+        ? `${activeCategory.label} · ${activeCategory.items.length} technologies`
+        : 'Select an area to unfold its map.';
 
   return (
     <div>
       <div className="grid items-stretch gap-5 md:gap-6 lg:grid-cols-5">
-        {/* Radar: figura tecnica con pie de panel, espejo del pie de leyenda */}
+        {/* Radar: figura tecnica con lectura de estado y pie de panel */}
         <Reveal className="lg:col-span-3">
           <div className="flex h-full flex-col border border-line bg-ink-2/40 p-4 sm:p-6">
             <figure className="flex min-h-0 flex-1 flex-col">
@@ -130,12 +129,24 @@ const TechnologyEcosystem = () => {
                 <div className="w-full max-w-[520px]">
                   <TechnologyRadar
                     categories={skillCategories}
-                    activeId={activeId}
-                    onSelect={setActiveId}
+                    selectedAreaId={selectedAreaId}
+                    selectedTechName={selectedTechName}
+                    onSelectArea={selectArea}
+                    onSelectTech={setSelectedTechName}
+                    onPreviewTech={setPreviewTechName}
                   />
                 </div>
               </div>
-              <figcaption className="mt-auto border-t border-line pt-4 font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em] text-bone-faint">
+              {/* Lectura de estado: espejo visual del panel. Es aria-hidden
+                  porque la region viva del panel ya anuncia lo mismo y no
+                  quiero doble anuncio en lectores de pantalla. */}
+              <p
+                aria-hidden="true"
+                className="mt-4 min-h-[1.25rem] font-mono text-[11px] uppercase tracking-[0.14em] text-bone-dim"
+              >
+                {readout}
+              </p>
+              <figcaption className="mt-2 border-t border-line pt-4 font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em] text-bone-faint">
                 Shape reflects tier mix per area, conceptual, not a score
               </figcaption>
             </figure>
@@ -145,7 +156,13 @@ const TechnologyEcosystem = () => {
         {/* Detalle + navegacion */}
         <Reveal delay={0.1} className="lg:col-span-2">
           <div className="flex h-full flex-col gap-6 border border-line bg-ink-2/40 p-5 sm:p-6">
-            <ActiveCategoryPanel category={active} />
+            <DetailPanel
+              activeCategory={activeCategory}
+              selectedItem={selectedItem}
+              onSelectTech={setSelectedTechName}
+              onBackToArea={() => setSelectedTechName(null)}
+              onReset={resetAll}
+            />
 
             <div>
               <h4 className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
@@ -153,15 +170,14 @@ const TechnologyEcosystem = () => {
               </h4>
               <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 {skillCategories.map((cat) => {
-                  const isActive = cat.id === activeId;
+                  const isActive = cat.id === selectedAreaId;
                   return (
                     <li key={cat.id}>
                       <button
                         type="button"
                         aria-pressed={isActive}
-                        onClick={() => setActiveId(cat.id)}
-                        onMouseEnter={() => setActiveId(cat.id)}
-                        onFocus={() => setActiveId(cat.id)}
+                        aria-label={`Explore ${cat.label}, ${cat.items.length} technologies`}
+                        onClick={() => selectArea(cat.id)}
                         className={`flex w-full items-center justify-between gap-2 border px-3.5 py-3 text-left text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink ${
                           isActive
                             ? 'border-accent/60 bg-accent/10 text-bone'
@@ -202,5 +218,120 @@ const TechnologyEcosystem = () => {
     </div>
   );
 };
+
+/**
+ * Panel de detalle con altura minima FIJA: cambiar de nivel no debe
+ * redimensionar el panel porque el reflujo bajo el cursor puede reactivar
+ * interacciones y oscilar. El contenido cambia y la geometria no se mueve.
+ */
+const DetailPanel = ({
+  activeCategory,
+  selectedItem,
+  onSelectTech,
+  onBackToArea,
+  onReset,
+}) => (
+  <div
+    aria-live="polite"
+    aria-label="Toolkit details"
+    className="min-h-[15rem]"
+  >
+    {!activeCategory && (
+      <div>
+        <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-dim">
+          {TOTAL_AREAS} areas · {TOTAL_TECHNOLOGIES} technologies
+        </p>
+        <p className="text-sm leading-relaxed text-bone-dim">
+          Each area unfolds as a constellation on the radar.
+        </p>
+      </div>
+    )}
+
+    {activeCategory && !selectedItem && (
+      <div>
+        <div className="mb-1.5 flex items-baseline justify-between gap-3">
+          <h4 className="font-sans text-lg font-semibold text-bone">
+            {activeCategory.label}
+          </h4>
+          <p className="shrink-0 font-mono text-xs text-bone-faint">
+            {activeCategory.items.length} tech
+          </p>
+        </div>
+        <p className="mb-4 font-mono text-xs text-bone-faint">
+          {['core', 'intermediate', 'familiar']
+            .map(
+              (level) =>
+                `${tierCount(activeCategory, level)} ${SKILL_LEVELS[level].label}`
+            )
+            .join(', ')}
+        </p>
+        <ul
+          aria-label={`${activeCategory.label} technologies`}
+          className="mb-5 flex flex-wrap gap-2"
+        >
+          {activeCategory.items.map((skill) => {
+            const style = CHIP_STYLES[skill.level] || CHIP_STYLES.familiar;
+            return (
+              <li key={skill.name}>
+                <button
+                  type="button"
+                  title={`${skill.name} (${SKILL_LEVELS[skill.level]?.label})`}
+                  onClick={() => onSelectTech(skill.name)}
+                  className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink hover:border-bone-faint hover:text-bone ${style.chip}`}
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`h-1.5 w-1.5 shrink-0 rounded-full ${style.dot}`}
+                  />
+                  {skill.name}
+                  <span className="sr-only">
+                    ({SKILL_LEVELS[skill.level]?.label})
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+        <ResetButton label="All areas" onClick={onReset} />
+      </div>
+    )}
+
+    {activeCategory && selectedItem && (
+      <div>
+        <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-bone-faint">
+          {activeCategory.label} · {SKILL_LEVELS[selectedItem.level]?.label}
+        </p>
+        <h4 className="mb-2 font-sans text-lg font-semibold text-bone">
+          {selectedItem.name}
+        </h4>
+        <p className="mb-5 text-sm leading-relaxed text-bone-dim">
+          {SKILL_LEVELS[selectedItem.level]?.description}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={onBackToArea}
+            className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] text-bone-dim transition-colors duration-200 hover:border-bone-faint hover:text-bone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+          >
+            <ArrowLeft aria-hidden="true" weight="bold" className="h-4 w-4" />
+            Back to {activeCategory.label}
+          </button>
+          <ResetButton label="All areas" onClick={onReset} />
+        </div>
+      </div>
+    )}
+  </div>
+);
+
+const ResetButton = ({ label, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] text-bone-dim transition-colors duration-200 hover:border-bone-faint hover:text-bone focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+  >
+    <SquaresFour aria-hidden="true" weight="bold" className="h-4 w-4" />
+    {label}
+  </button>
+);
 
 export default TechnologyEcosystem;

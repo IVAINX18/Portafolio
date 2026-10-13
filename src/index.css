@@ -117,17 +117,43 @@
     }
   }
 
-  /* Radar: misma entrada suave que antes del rediseno. */
-  .radar-area {
-    animation: radar-in 0.8s var(--ease-out) both;
+  /*
+   * Radar: entrada coreografiada en un solo montaje (estructura -> dato ->
+   * anclas). Los delays viven inline por elemento; la secuencia completa
+   * queda bajo 700ms. Solo opacidad y una escala leve desde 0.96, nunca
+   * scale(0): nada aparece desde la nada.
+   */
+  .radar-enter-structure {
+    animation: radar-print 320ms var(--ease-out) both;
   }
 
-  @keyframes radar-in {
+  .radar-enter-data {
+    animation: radar-data-in 300ms var(--ease-out) both;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .radar-enter-anchor {
+    animation: radar-print 200ms var(--ease-out) both;
+  }
+
+  @keyframes radar-print {
     from {
       opacity: 0;
     }
     to {
       opacity: 1;
+    }
+  }
+
+  @keyframes radar-data-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 
@@ -146,15 +172,15 @@
 
   .radar-axis .radar-dot,
   .radar-axis .radar-label {
-    transition: opacity var(--duration-fast) ease-out;
+    transition: opacity var(--duration-fast) var(--ease-out);
   }
 
   .radar-axis .radar-dot {
     transform-box: fill-box;
     transform-origin: center;
     transition:
-      transform var(--duration-fast) ease-out,
-      opacity var(--duration-fast) ease-out;
+      transform var(--duration-fast) var(--ease-out),
+      opacity var(--duration-fast) var(--ease-out);
   }
 
   .radar-axis:hover .radar-dot,
@@ -163,7 +189,34 @@
   }
 
   .radar-axis .radar-halo {
-    transition: opacity 250ms ease-out;
+    transition: opacity 250ms var(--ease-out);
+  }
+
+  /*
+   * Radar: el foco de teclado merece la misma evidencia que el hover. Quito
+   * el outline nativo (rompe la figura) y enciendo halo + etiqueta, que es
+   * la senal que ya entiende este grafico.
+   */
+  .radar-axis:focus-visible .radar-halo {
+    opacity: 0.45;
+  }
+
+  .radar-axis:focus-visible .radar-label {
+    fill: #edeae3;
+  }
+
+  /*
+   * Radar con seleccion: las areas no elegidas bajan a contexto (solo
+   * opacidad) pero siguen visibles para orientarse. El hover/foco sigue
+   * pintando encima porque esas reglas viven en el eje, no aqui.
+   */
+  .radar-has-selection .radar-axis.is-dim .radar-label,
+  .radar-has-selection .radar-axis.is-dim .radar-dot {
+    opacity: 0.3;
+  }
+
+  .radar-has-selection .radar-axis.is-dim .radar-halo {
+    opacity: 0;
   }
 
   /*
@@ -171,7 +224,88 @@
    * unico que cambia y la geometria nunca se mueve con el hover.
    */
   .radar-spoke {
-    transition: opacity 200ms ease-out;
+    transition: opacity 200ms var(--ease-out);
+  }
+
+  /*
+   * Constelacion: la union y los bordes aparecen en un fundido corto; los
+   * nodos entran escalonados (delay inline de 30ms) con opacidad + escala
+   * desde 0.9. La entrada vive en el <g> y el hover/foco en el circulo hijo,
+   * asi el fill de la animacion nunca bloquea la escala interactiva.
+   */
+  .const-edge,
+  .const-junction {
+    animation: const-fade 120ms var(--ease-out) both;
+  }
+
+  .const-node-g {
+    cursor: pointer;
+    outline: none;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: const-node-in 180ms var(--ease-out) both;
+  }
+
+  .const-node-g:focus {
+    outline: none;
+  }
+
+  @keyframes const-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes const-node-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .const-edge-line {
+    transition:
+      stroke 200ms var(--ease-out),
+      opacity 200ms var(--ease-out);
+  }
+
+  .const-halo {
+    opacity: 0;
+    transition: opacity 180ms var(--ease-out);
+  }
+
+  .const-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition:
+      transform 180ms var(--ease-out),
+      fill 200ms var(--ease-out),
+      stroke 200ms var(--ease-out);
+  }
+
+  .const-node-g:hover .const-halo,
+  .const-node-g:focus-visible .const-halo {
+    opacity: 0.4;
+  }
+
+  .const-node-g:hover .const-node,
+  .const-node-g:focus-visible .const-node {
+    transform: scale(1.25);
+  }
+
+  .const-node-g.is-selected .const-halo {
+    opacity: 0.55;
+  }
+
+  .const-node-g.is-selected .const-node {
+    transform: scale(1.15);
   }
 
   .radar-axis:hover .radar-label,

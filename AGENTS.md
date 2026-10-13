@@ -1,8 +1,8 @@
 # AGENTS.md
 
-**Generated:** 2026-10-12 · **Commit:** 493ebc5 · **Branch:** main
+**Updated:** 2026-10-13 · **Commit:** 40df315 · **Branch:** main
 
-Portfolio of Ivan Velasco: React 19 + Vite 7 + Tailwind 3.4 + Framer Motion, plain JSX (no TypeScript, no test suite). The README is stale where it says React 18 and `cd portfolio-app` — trust `package.json`.
+Portfolio of Ivan Velasco: React 19 + Vite 7 + Tailwind 3.4 + Framer Motion, plain JSX (no TypeScript, no test suite). The README is stale where it says React 18 and `cd portfolio-app` — trust `package.json`. Before editing anything under `src/`, read the nested `src/AGENTS.md` (code contract: layout rules, motion/scroll invariants, anti-patterns).
 
 ## Project structure
 
@@ -19,8 +19,9 @@ Portafolio/
 │   ├── data/         # projects.js, skills.js — content for Work, Skills and About
 │   ├── hooks/        # useActiveSection.js (IntersectionObserver scrollspy)
 │   ├── lib/          # scroll.js (rAF scrollToSection)
-│   └── assets/       # react.svg (Vite default, unused)
-├── public/           # _redirects (SPA fallback), fonts/ (3 woff2), FotoPerfil.png
+│   ├── assets/       # react.svg (Vite default, unused)
+│   └── AGENTS.md     # code contract for the src/ subtree (layout rules + invariants)
+├── public/           # _redirects (SPA fallback), fonts/ (3 woff2), FotoPerfil.png, Logo.jpeg (favicon)
 ├── Docs/Design/      # design-system.md, redesign-editorial.md
 └── dist/             # committed build output (see "The build output is committed")
 ```
@@ -33,9 +34,9 @@ Portafolio/
 | Page composition and section order | `src/App.jsx` | narrative order, skip-link, the single `Marquee` |
 | Nav links and scrollspy | `src/components/Navigation.jsx`, `src/hooks/useActiveSection.js` | `NAV_ITEMS` drives the nav, `SECTION_IDS` the active id |
 | Smooth scrolling | `src/lib/scroll.js` | rAF easing, header offset, reduced-motion aware |
-| Shared UI primitives | `src/components/ui/` | `Reveal` is the only reveal API, `Marquee` is a singleton, `TechBadge` renders an `<li>` |
+| Shared UI primitives | `src/components/ui/` | `Reveal` is the only reveal API, `Marquee` is a singleton and takes an `items` array, `TechBadge` renders an `<li>` |
 | Project cards | `src/components/projects/` | `FlagshipProject` (featured) and `ProjectEntry` (ledger row, `treatment: 'text' \| 'plate'`) |
-| Skills visuals | `src/components/skills/` | `TechnologyEcosystem` (cards + radar) and `TechnologyRadar` (figure) |
+| Skills visuals | `src/components/skills/` | `TechnologyRadar` (SVG figure; per-area constellation when an area is selected) and `TechnologyEcosystem` (explorer state, readout, detail panel) |
 | Visual rules | `Docs/Design/design-system.md` | read before any UI change |
 
 ## Code map
@@ -46,14 +47,14 @@ Portafolio/
 | `Navigation` | component | `src/components/Navigation.jsx` | sticky nav, scroll progress, mobile menu, scrollspy wiring |
 | `Hero`, `Work`, `Publications`, `About`, `Skills`, `Contact` | section | `src/components/*.jsx` | one page section each; ids `home`, `projects`, `publications`, `about` (nested `certificates`), `skills`, `contact` |
 | `FlagshipProject`, `ProjectEntry` | component | `src/components/projects/` | featured card and ledger row for `Work` |
-| `TechnologyEcosystem`, `TechnologyRadar` | component | `src/components/skills/` | radar plus area cards for `Skills` |
+| `TechnologyEcosystem`, `TechnologyRadar` | component | `src/components/skills/` | `Skills` explorer: radar figure with per-area constellation + L1/L2/L3 selection panel |
 | `Reveal`, `SectionHeading`, `Marquee`, `TechBadge` | component | `src/components/ui/` | cross-section primitives |
 | `useActiveSection` | hook | `src/hooks/useActiveSection.js` | IntersectionObserver scrollspy |
 | `scrollToSection` | function | `src/lib/scroll.js` | rAF smooth scroll with header offset |
 | `featuredProjects`, `notableProjects` | data | `src/data/projects.js` | content source for `Work` |
-| `skillCategories`, `SKILL_LEVELS`, `softSkills`, `certifications` | data | `src/data/skills.js` | content source for `Skills` and the `About` certifications list |
+| `skillCategories`, `categoryBreadth`, `SKILL_LEVELS`, `softSkills`, `certifications` | data | `src/data/skills.js` | content source for `Skills` and the `About` certifications list; `categoryBreadth()` feeds the radar shape |
 
-Centrality (reference counts) is not measured: no active LSP server for JS/JSX and codegraph queries timed out.
+Centrality is not measured: no active LSP server for JS/JSX and `.codegraph/` queries time out even though the index exists (both re-checked 2026-10-13) — don't wait on them; verify by reading source plus `lint`/`build`/`preview`.
 
 ## Commands
 
@@ -96,4 +97,4 @@ No tests, no CI. Verification before reporting work done = `npm run lint` + `npm
 ## Workflow notes
 
 - `.omo/` and `.env` are gitignored. Per the user's standing workflow, `Docs/Tasks/` must also stay uncommitted — add it to `.gitignore` if you create it.
-- Never commit or push unless explicitly asked; the user drives a dedicated `/commit` flow.
+- Never commit or push unless explicitly asked; the user drives a dedicated `/commit` flow (Spanish, structured, detailed commit messages; no emojis).
