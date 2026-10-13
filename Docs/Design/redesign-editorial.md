@@ -58,7 +58,7 @@ Modificados:
 - `src/components/ui/SectionHeading.jsx`: titulos Anton con clamp().
 - `src/components/ui/TechBadge.jsx`: etiqueta mono de esquinas rectas.
 - `src/components/skills/TechnologyEcosystem.jsx`: paneles y chips al sistema nuevo.
-- `src/components/skills/TechnologyRadar.jsx`: radar recoloreado al acento nuevo.
+- `src/components/skills/`: figura de skills recoloreada al acento nuevo (hoy reemplazada por el mapa estelar de constelaciones vivas).
 - `src/data/projects.js`: campos nuevos `role`, `image`, `imageAlt`, `caption`,
   `treatment` (los campos de captura quedaron sin uso tras el retiro; ver
   "Capturas de producto retiradas").
@@ -219,8 +219,9 @@ lee texturizado sin ruido y los puntos quedan legibles sobre el; elegi la
 cruz de origen porque se lee mas tecnica que el punto difuso anterior.
 Sin cambios de copy, tokens ni datos; el contrato de hover de metricas
 constantes y toda la semantica (roles, `aria-pressed`, etiquetas, teclado
-Enter/Espacio) quedaron intactos. El detalle de constantes vive en el
-comentario de cabecera de `TechnologyRadar.jsx`.
+Enter/Espacio) quedaron intactos. El detalle de constantes vivia en el
+comentario de cabecera de la figura de skills de entonces; hoy la figura es
+el mapa estelar de `TechnologyConstellation.jsx`.
 
 ## Bloqueos conocidos
 

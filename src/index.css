@@ -118,170 +118,154 @@
   }
 
   /*
-   * Radar: entrada coreografiada en un solo montaje (estructura -> dato ->
-   * anclas). Los delays viven inline por elemento; la secuencia completa
-   * queda bajo 700ms. Solo opacidad y una escala leve desde 0.96, nunca
-   * scale(0): nada aparece desde la nada.
+   * Constelacion viva: mapa estelar dibujado a mano, sin rejilla radial ni
+   * poligonos. La vida ambiente son tres keyframes solo de transform y
+   * opacidad (parpadeo por estrella, deriva por cumulo, pulso desde la
+   * estrella mas brillante), desincronizados con delays negativos para que
+   * nunca parezca un loop maestro. Uso ease-in-out porque es movimiento en
+   * pantalla, no entrada; las entradas y el hover usan --ease-out.
+   * Los infinitos viven en envoltorios (<g>) y el estado interactivo en los
+   * elementos hijos, asi ningun keyframe y ninguna transicion comparten
+   * propiedad sobre el mismo elemento. El interruptor global de
+   * reduced-motion ya los apaga; no toco nada de eso.
    */
-  .radar-enter-structure {
-    animation: radar-print 320ms var(--ease-out) both;
-  }
-
-  .radar-enter-data {
-    animation: radar-data-in 300ms var(--ease-out) both;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-
-  .radar-enter-anchor {
-    animation: radar-print 200ms var(--ease-out) both;
-  }
-
-  @keyframes radar-print {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes radar-data-in {
-    from {
-      opacity: 0;
-      transform: scale(0.96);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  /*
-   * Radar: la caja de impacto (linea transparente ancha + etiqueta de
-   * metricas constantes) nunca cambia de tamano; solo responden la pintura
-   * interna y la escala del punto, asi el puntero no oscila entre estados.
-   */
-  .radar-axis {
-    cursor: pointer;
-  }
-
-  .radar-axis:focus {
-    outline: none;
-  }
-
-  .radar-axis .radar-dot,
-  .radar-axis .radar-label {
+  .sky-cluster {
     transition: opacity var(--duration-fast) var(--ease-out);
   }
 
-  .radar-axis .radar-dot {
-    transform-box: fill-box;
-    transform-origin: center;
-    transition:
-      transform var(--duration-fast) var(--ease-out),
-      opacity var(--duration-fast) var(--ease-out);
-  }
-
-  .radar-axis:hover .radar-dot,
-  .radar-axis:focus-visible .radar-dot {
-    transform: scale(1.3);
-  }
-
-  .radar-axis .radar-halo {
-    transition: opacity 250ms var(--ease-out);
-  }
-
   /*
-   * Radar: el foco de teclado merece la misma evidencia que el hover. Quito
-   * el outline nativo (rompe la figura) y enciendo halo + etiqueta, que es
-   * la senal que ya entiende este grafico.
+   * L2: los cumulos no elegidos bajan a contexto pero siguen visibles para
+   * orientarse. Solo opacidad en el <g> exterior; la deriva corre dentro.
    */
-  .radar-axis:focus-visible .radar-halo {
-    opacity: 0.45;
-  }
-
-  .radar-axis:focus-visible .radar-label {
-    fill: #edeae3;
-  }
-
-  /*
-   * Radar con seleccion: las areas no elegidas bajan a contexto (solo
-   * opacidad) pero siguen visibles para orientarse. El hover/foco sigue
-   * pintando encima porque esas reglas viven en el eje, no aqui.
-   */
-  .radar-has-selection .radar-axis.is-dim .radar-label,
-  .radar-has-selection .radar-axis.is-dim .radar-dot {
+  .sky-has-selection .sky-cluster.is-dim {
     opacity: 0.3;
   }
 
-  .radar-has-selection .radar-axis.is-dim .radar-halo {
+  /* Deriva ambiente: translate minimo (2-4px) en ciclo largo 9-14s con
+   * amplitud por cumulo via variables, para que el cielo respire lento. */
+  .sky-drift {
+    animation: sky-drift 11s ease-in-out infinite alternate;
+  }
+
+  @keyframes sky-drift {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(var(--sky-dx, 3px), var(--sky-dy, -2px));
+    }
+  }
+
+  /* Parpadeo por estrella: solo opacidad 0.55-1 en 3.6-5.4s, duracion y
+   * delay inline por estrella para desincronizar. */
+  .sky-twinkle {
+    animation: sky-twinkle 4.4s ease-in-out infinite alternate;
+  }
+
+  @keyframes sky-twinkle {
+    from {
+      opacity: 0.55;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Pulso del cumulo: un anillo que nace pequeno y muere grande desde la
+   * estrella mas brillante. Opacidad tope 0.28, nunca un destello. */
+  .sky-pulse {
+    fill: none;
+    stroke: #38bdf8;
+    stroke-width: 1;
     opacity: 0;
-  }
-
-  /*
-   * Radar: el destello del eje activo es solo pintura; la opacidad es lo
-   * unico que cambia y la geometria nunca se mueve con el hover.
-   */
-  .radar-spoke {
-    transition: opacity 200ms var(--ease-out);
-  }
-
-  /*
-   * Constelacion: la union y los bordes aparecen en un fundido corto; los
-   * nodos entran escalonados (delay inline de 30ms) con opacidad + escala
-   * desde 0.9. La entrada vive en el <g> y el hover/foco en el circulo hijo,
-   * asi el fill de la animacion nunca bloquea la escala interactiva.
-   */
-  .const-edge,
-  .const-junction {
-    animation: const-fade 120ms var(--ease-out) both;
-  }
-
-  .const-node-g {
-    cursor: pointer;
-    outline: none;
     transform-box: fill-box;
     transform-origin: center;
-    animation: const-node-in 180ms var(--ease-out) both;
+    animation: sky-pulse 4.6s ease-in-out infinite;
   }
 
-  .const-node-g:focus {
+  @keyframes sky-pulse {
+    0% {
+      transform: scale(0.45);
+      opacity: 0;
+    }
+    25% {
+      opacity: 0.28;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  /*
+   * Etiqueta del cumulo: boton real de geometria constante (rectangulo
+   * invisible + texto). El hover/foco solo pintan el texto; el tamano y el
+   * peso nunca cambian para no mover la region de puntero.
+   */
+  .sky-area {
+    cursor: pointer;
+  }
+
+  .sky-area:focus {
     outline: none;
   }
 
-  @keyframes const-fade {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes const-node-in {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  .const-edge-line {
+  .sky-label {
     transition:
-      stroke 200ms var(--ease-out),
-      opacity 200ms var(--ease-out);
+      fill var(--duration-fast) var(--ease-out),
+      opacity var(--duration-fast) var(--ease-out);
   }
 
-  .const-halo {
+  .sky-area:hover .sky-label,
+  .sky-area:focus-visible .sky-label {
+    fill: #edeae3;
+  }
+
+  .sky-cluster.is-active .sky-label {
+    fill: #7dd3fc;
+  }
+
+  /*
+   * Estrellas: el envoltorio decorativo renuncia al puntero para que solo
+   * el area elegida reciba eventos. El halo vive con opacidad baja en el
+   * cumulo activo como senal de estado; hover, foco y seleccion solo suben
+   * esa opacidad y escalan el punto. Nunca escalo desde 0: nada aparece
+   * desde la nada.
+   */
+  .sky-star {
+    outline: none;
+  }
+
+  .sky-star.is-decorative {
+    pointer-events: none;
+  }
+
+  .sky-star:focus {
+    outline: none;
+  }
+
+  .sky-halo {
+    fill: none;
+    stroke: #38bdf8;
+    stroke-width: 1.5;
     opacity: 0;
     transition: opacity 180ms var(--ease-out);
   }
 
-  .const-node {
+  .sky-cluster.is-active .sky-halo {
+    opacity: 0.16;
+  }
+
+  .sky-star:hover .sky-halo,
+  .sky-star:focus-visible .sky-halo {
+    opacity: 0.4;
+  }
+
+  .sky-star.is-selected .sky-halo {
+    opacity: 0.55;
+  }
+
+  .sky-dot {
     transform-box: fill-box;
     transform-origin: center;
     transition:
@@ -290,27 +274,30 @@
       stroke 200ms var(--ease-out);
   }
 
-  .const-node-g:hover .const-halo,
-  .const-node-g:focus-visible .const-halo {
-    opacity: 0.4;
+  /* El movimiento con el cursor solo existe donde hay puntero fino; el foco
+   * de teclado escala siempre porque es su unica evidencia de posicion. */
+  @media (hover: hover) and (pointer: fine) {
+    .sky-star:hover .sky-dot {
+      transform: scale(1.25);
+    }
   }
 
-  .const-node-g:hover .const-node,
-  .const-node-g:focus-visible .const-node {
+  .sky-star:focus-visible .sky-dot {
     transform: scale(1.25);
   }
 
-  .const-node-g.is-selected .const-halo {
-    opacity: 0.55;
-  }
-
-  .const-node-g.is-selected .const-node {
+  .sky-star.is-selected .sky-dot {
     transform: scale(1.15);
   }
 
-  .radar-axis:hover .radar-label,
-  .radar-axis:focus-visible .radar-label {
-    fill: #edeae3;
+  /*
+   * Aristas de pertenencia: solo pintura (trazo y opacidad) al elegir una
+   * estrella; la geometria de la cadenita nunca se mueve.
+   */
+  .sky-edge {
+    transition:
+      stroke 200ms var(--ease-out),
+      opacity 200ms var(--ease-out);
   }
 }
 

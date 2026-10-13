@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowLeft, SquaresFour } from '@phosphor-icons/react';
 import Reveal from '../ui/Reveal';
-import TechnologyRadar from './TechnologyRadar';
+import TechnologyConstellation from './TechnologyConstellation';
 import {
   SKILL_LEVELS,
   skillCategories,
@@ -9,7 +9,7 @@ import {
 
 // La misma escala de color significa lo mismo en todo el bloque: el acento
 // marca lo que uso a diario y el hueso se apaga conforme baja la profundidad
-// de uso. Es identica en el radar, los nodos de la constelacion, las fichas
+// de uso. Es identica en el mapa estelar, las estrellas, las fichas
 // y la leyenda.
 const CHIP_STYLES = {
   core: {
@@ -116,18 +116,18 @@ const TechnologyEcosystem = () => {
       ? `${previewItem.name} · ${SKILL_LEVELS[previewItem.level]?.label}`
       : activeCategory
         ? `${activeCategory.label} · ${activeCategory.items.length} technologies`
-        : 'Select an area to unfold its map.';
+          : 'Select an area to see its stars.';
 
   return (
     <div>
       <div className="grid items-stretch gap-5 md:gap-6 lg:grid-cols-5">
-        {/* Radar: figura tecnica con lectura de estado y pie de panel */}
+        {/* Star map: figura tecnica con lectura de estado y pie de panel */}
         <Reveal className="lg:col-span-3">
           <div className="flex h-full flex-col border border-line bg-ink-2/40 p-4 sm:p-6">
             <figure className="flex min-h-0 flex-1 flex-col">
               <div className="flex flex-1 items-center justify-center">
-                <div className="w-full max-w-[520px]">
-                  <TechnologyRadar
+                <div className="w-full">
+                  <TechnologyConstellation
                     categories={skillCategories}
                     selectedAreaId={selectedAreaId}
                     selectedTechName={selectedTechName}
@@ -147,7 +147,7 @@ const TechnologyEcosystem = () => {
                 {readout}
               </p>
               <figcaption className="mt-2 border-t border-line pt-4 font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em] text-bone-faint">
-                Shape reflects tier mix per area, conceptual, not a score
+                Star size and brightness mark depth of use, conceptual, not a score
               </figcaption>
             </figure>
           </div>
@@ -242,7 +242,7 @@ const DetailPanel = ({
           {TOTAL_AREAS} areas · {TOTAL_TECHNOLOGIES} technologies
         </p>
         <p className="text-sm leading-relaxed text-bone-dim">
-          Each area unfolds as a constellation on the radar.
+          Each area is a constellation. Select one to bring it forward.
         </p>
       </div>
     )}

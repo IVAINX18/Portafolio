@@ -14,7 +14,7 @@ Portafolio/
 │   ├── index.css     # design tokens, @font-face, utilities, reduced-motion kill-switch
 │   ├── components/   # one section per file (Hero, Work, Publications, About, Skills, Contact) + Navigation
 │   │   ├── projects/ # Work-only subviews: FlagshipProject, ProjectEntry
-│   │   ├── skills/   # Skills-only subviews: TechnologyEcosystem, TechnologyRadar
+│   │   ├── skills/   # Skills-only subviews: TechnologyEcosystem, TechnologyConstellation
 │   │   └── ui/       # shared primitives: Reveal, SectionHeading, Marquee, TechBadge
 │   ├── data/         # projects.js, skills.js — content for Work, Skills and About
 │   ├── hooks/        # useActiveSection.js (IntersectionObserver scrollspy)
@@ -36,7 +36,7 @@ Portafolio/
 | Smooth scrolling | `src/lib/scroll.js` | rAF easing, header offset, reduced-motion aware |
 | Shared UI primitives | `src/components/ui/` | `Reveal` is the only reveal API, `Marquee` is a singleton and takes an `items` array, `TechBadge` renders an `<li>` |
 | Project cards | `src/components/projects/` | `FlagshipProject` (featured) and `ProjectEntry` (ledger row, `treatment: 'text' \| 'plate'`) |
-| Skills visuals | `src/components/skills/` | `TechnologyRadar` (SVG figure; per-area constellation when an area is selected) and `TechnologyEcosystem` (explorer state, readout, detail panel) |
+| Skills visuals | `src/components/skills/` | `TechnologyConstellation` (SVG star-map figure; 7 hand-placed constellations with CSS-only ambient motion) and `TechnologyEcosystem` (explorer state, readout, detail panel) |
 | Visual rules | `Docs/Design/design-system.md` | read before any UI change |
 
 ## Code map
@@ -47,12 +47,12 @@ Portafolio/
 | `Navigation` | component | `src/components/Navigation.jsx` | sticky nav, scroll progress, mobile menu, scrollspy wiring |
 | `Hero`, `Work`, `Publications`, `About`, `Skills`, `Contact` | section | `src/components/*.jsx` | one page section each; ids `home`, `projects`, `publications`, `about` (nested `certificates`), `skills`, `contact` |
 | `FlagshipProject`, `ProjectEntry` | component | `src/components/projects/` | featured card and ledger row for `Work` |
-| `TechnologyEcosystem`, `TechnologyRadar` | component | `src/components/skills/` | `Skills` explorer: radar figure with per-area constellation + L1/L2/L3 selection panel |
+| `TechnologyEcosystem`, `TechnologyConstellation` | component | `src/components/skills/` | `Skills` explorer: living-constellation star map + L1/L2/L3 selection panel |
 | `Reveal`, `SectionHeading`, `Marquee`, `TechBadge` | component | `src/components/ui/` | cross-section primitives |
 | `useActiveSection` | hook | `src/hooks/useActiveSection.js` | IntersectionObserver scrollspy |
 | `scrollToSection` | function | `src/lib/scroll.js` | rAF smooth scroll with header offset |
 | `featuredProjects`, `notableProjects` | data | `src/data/projects.js` | content source for `Work` |
-| `skillCategories`, `categoryBreadth`, `SKILL_LEVELS`, `softSkills`, `certifications` | data | `src/data/skills.js` | content source for `Skills` and the `About` certifications list; `categoryBreadth()` feeds the radar shape |
+| `skillCategories`, `categoryBreadth`, `SKILL_LEVELS`, `softSkills`, `certifications` | data | `src/data/skills.js` | content source for `Skills` and the `About` certifications list; `categoryBreadth()` is retained in the data file but no component imports it anymore |
 
 Centrality is not measured: no active LSP server for JS/JSX and `.codegraph/` queries time out even though the index exists (both re-checked 2026-10-13) — don't wait on them; verify by reading source plus `lint`/`build`/`preview`.
 
